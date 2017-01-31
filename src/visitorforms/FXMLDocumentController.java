@@ -5,8 +5,12 @@
  */
 package visitorforms;
 
+import com.mysql.jdbc.Connection;
 import java.net.URL;
+import java.sql.ResultSet;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,6 +19,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -34,28 +40,61 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button btnSave;
     @FXML
-    private TableView<?> tblView;
+    private TableView<VisitorsDetails> tblView;
     @FXML
-    private TableColumn<?, ?> colFname;
+    private TableColumn<VisitorsDetails, String> colFname;
     @FXML
-    private TableColumn<?, ?> colLname;
+    private TableColumn<VisitorsDetails, String> colLname;
     @FXML
-    private TableColumn<?, ?> colEmail;
+    private TableColumn<VisitorsDetails, String> colEmail;
     @FXML
-    private TableColumn<?, ?> colPhone;
+    private TableColumn<VisitorsDetails, Integer> colPhone;
     
-    private void handleButtonAction(ActionEvent event) {
+    private DatabaseConnection dcon;
+    private ObservableList<VisitorsDetails> data;
+    
+    /*private void handleButtonAction(ActionEvent event) {
         System.out.println("You clicked me!");
         label.setText("Hello World!");
-    }
+    }*/
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        dcon = new DatabaseConnection();
     }    
 
     @FXML
     private void populateTable(ActionEvent event) {
+        displayFromDatabase();
+    }
+    
+    private void displayFromDatabase(){
+        try {
+            Connection conn = dcon.connect();
+            data = FXCollections.observableArrayList();
+
+            //execute query and store result in a resultset
+            String query = "SELECT * FROM visitor";
+            ResultSet rs = conn.createStatement().executeQuery(query);
+            while (rs.next()) {
+                String fname = rs.getString("firstname");
+                String lname = rs.getString("lastname");
+                String email = rs.getString("email");
+                String phone = rs.getString("phone");
+                data.add(new VisitorsDetails(fname,lname,email,phone));
+            }
+        } catch (Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+        
+        colFname.setCellValueFactory(new PropertyValueFactory<>("fname"));
+        colLname.setCellValueFactory(new PropertyValueFactory<>("lname"));
+        colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        colPhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        
+        tblView.setItems(null);
+        tblView.setItems(data);
     }
     
 }
