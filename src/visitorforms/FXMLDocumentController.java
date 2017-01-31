@@ -53,16 +53,13 @@ public class FXMLDocumentController implements Initializable {
     
     private DatabaseConnection dcon;
     private ObservableList<VisitorsDetails> data;
-    
-    /*private void handleButtonAction(ActionEvent event) {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
-    }*/
+    private Connection conn;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         dcon = new DatabaseConnection();
+        conn = dcon.connect();
         displayFromDatabase();
     }    
 
@@ -73,13 +70,25 @@ public class FXMLDocumentController implements Initializable {
         String email = txtEmail.getText();
         String phone = txtPhone.getText();
         
-        if (fname.equals("") || lname.equals("")) {
-            JOptionPane.showMessageDialog(null,"Enter first and last name");
+        String error = validate(fname,lname,phone);
+        if (!error.equals("")) {
+            JOptionPane.showMessageDialog(null,error);
             return;
         }
         saveToDatabase(fname,lname,email,phone);
         clearForm();
         displayFromDatabase();
+    }
+    
+    private String validate(String fname, String lname, String phone){
+        String error = "";
+        if (fname.equals(""))
+                error = "Enter First Name";
+        else if (lname.equals(""))
+            error = "Enter Last Name";
+        else if (phone.equals(""))
+            error = "Enter Phone";
+        return error;
     }
     
     private void clearForm(){
@@ -92,10 +101,8 @@ public class FXMLDocumentController implements Initializable {
     private void saveToDatabase(String fname,String lname,String email,String phone){
         
             try {
-                Connection conn = dcon.connect();
-
                 //execute query and store data in database
-                String query = "INSERT INTO visitor(firstname,lastname,email,phone) VALUES(?,?,?,?)";
+                String query = "INSERT INTO VISITOR(Fname,Lname,Email,Phone) VALUES(?,?,?,?)";
                 PreparedStatement pst = conn.prepareStatement(query);
                 pst.setString(1, fname);
                 pst.setString(2, lname);
@@ -117,17 +124,16 @@ public class FXMLDocumentController implements Initializable {
     
     private void displayFromDatabase(){
         try {
-            Connection conn = dcon.connect();
             data = FXCollections.observableArrayList();
 
             //execute query and store result in a resultset
-            String query = "SELECT * FROM visitor";
+            String query = "SELECT * FROM VISITOR ORDER BY Fname";
             ResultSet rs = conn.createStatement().executeQuery(query);
             while (rs.next()) {
-                String fname = rs.getString("firstname");
-                String lname = rs.getString("lastname");
-                String email = rs.getString("email");
-                String phone = rs.getString("phone");
+                String fname = rs.getString("Fname");
+                String lname = rs.getString("Lname");
+                String email = rs.getString("Email");
+                String phone = rs.getString("Phone");
                 data.add(new VisitorsDetails(fname,lname,email,phone));
             }
         } catch (Exception e){

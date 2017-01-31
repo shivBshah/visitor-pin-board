@@ -18,7 +18,7 @@
                <children>
                   <VBox layoutX="39.0" layoutY="79.0" prefHeight="322.0" prefWidth="272.0">
                      <children>
-                        <Label text="First Name">
+                        <Label text="First Name *">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -31,7 +31,7 @@
                               <Font size="18.0" />
                            </font>
                         </TextField>
-                        <Label layoutX="10.0" layoutY="10.0" text="Last Name">
+                        <Label layoutX="10.0" layoutY="10.0" text="Last Name *">
                            <padding>
                               <Insets top="10.0" />
                            </padding>
@@ -63,7 +63,7 @@
                               <Font size="18.0" />
                            </font>
                         </TextField>
-                        <Label layoutX="10.0" layoutY="124.0" text="Phone">
+                        <Label layoutX="10.0" layoutY="124.0" text="Phone *">
                            <padding>
                               <Insets top="10.0" />
                            </padding>
