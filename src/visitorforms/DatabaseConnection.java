@@ -18,9 +18,10 @@ import java.util.logging.Logger;
 public class DatabaseConnection {
     public Connection connect(){
         try {
-            String url = "jdbc:mysql://localhost:3306/visitors";
-            String user = "root";
-            String password = "root";
+            String url = "jdbc:mysql://krixardb.cn0cpun8b1mz.us-west-2.rds.amazonaws.com:3306/CVBDB";
+            //String url = "jdbc:mysql://localhost:3306/visitors";
+            String user = "dbmaster";
+            String password = "CSCI4060";
 
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = (Connection) DriverManager.getConnection(url, user, password);

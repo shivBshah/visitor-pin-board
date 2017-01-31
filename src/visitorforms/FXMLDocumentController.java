@@ -68,7 +68,16 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void populateTable(ActionEvent event) {
-        saveToDatabase();
+        String fname = txtFname.getText();
+        String lname = txtLname.getText();
+        String email = txtEmail.getText();
+        String phone = txtPhone.getText();
+        
+        if (fname.equals("") || lname.equals("")) {
+            JOptionPane.showMessageDialog(null,"Enter first and last name");
+            return;
+        }
+        saveToDatabase(fname,lname,email,phone);
         clearForm();
         displayFromDatabase();
     }
@@ -80,33 +89,30 @@ public class FXMLDocumentController implements Initializable {
         txtPhone.setText("");
     }
     
-    private void saveToDatabase(){
-        String fname = txtFname.getText();
-        String lname = txtLname.getText();
-        String email = txtEmail.getText();
-        String phone = txtPhone.getText();
+    private void saveToDatabase(String fname,String lname,String email,String phone){
         
-        try {
-            Connection conn = dcon.connect();
+            try {
+                Connection conn = dcon.connect();
 
-            //execute query and store data in database
-            String query = "INSERT INTO visitor(firstname,lastname,email,phone) VALUES(?,?,?,?)";
-            PreparedStatement pst = conn.prepareStatement(query);
-            pst.setString(1, fname);
-            pst.setString(2, lname);
-            pst.setString(3, email);
-            pst.setString(4, phone);
-            int i = pst.executeUpdate();
-            if (i>0){
-                JOptionPane.showMessageDialog(null, "Data saved successfully!!!");
-            }        
-            else {
-                JOptionPane.showMessageDialog(null, "Error Saving Data!!!");
+                //execute query and store data in database
+                String query = "INSERT INTO visitor(firstname,lastname,email,phone) VALUES(?,?,?,?)";
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setString(1, fname);
+                pst.setString(2, lname);
+                pst.setString(3, email);
+                pst.setString(4, phone);
+                int i = pst.executeUpdate();
+                if (i>0){
+                    JOptionPane.showMessageDialog(null, "Data saved successfully!!!");
+                }        
+                else {
+                    JOptionPane.showMessageDialog(null, "Error Saving Data!!!");
+                }
+
+            } catch (Exception e){
+                JOptionPane.showMessageDialog(null, e);
             }
-            
-        } catch (Exception e){
-            JOptionPane.showMessageDialog(null, e);
-        }
+                
     }
     
     private void displayFromDatabase(){
