@@ -91,7 +91,6 @@ public class FXMLDocumentController implements Initializable {
 
             //execute query and store data in database
             String query = "INSERT INTO visitor(firstname,lastname,email,phone) VALUES(?,?,?,?)";
-            ResultSet rs = conn.createStatement().executeQuery(query);
             PreparedStatement pst = conn.prepareStatement(query);
             pst.setString(1, fname);
             pst.setString(2, lname);
