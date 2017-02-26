@@ -20,8 +20,9 @@
         border-radius: 0;
         padding: 20px;
         border: none;
-        
       }
+        
+
       h1, h2{
         text-align: center;
       }
@@ -30,10 +31,20 @@
   <body>
     <h1>Welcome to West Monroe!</h1>
     <h2>Where are you from?</h2>
+      
+    <center>
+    <div id="inputBox">
+    <input id="address" type="textbox" value="71212">
+    <input id="submit" type="button" value="Enter">
+    </div>
+      </center>
+        
     <div id="map"></div>
     <button id="btn">Click Me</button>
+      
     <script>
       var map;
+        var geocoder;
       function initMap() {
         /*37.0902° N, 95.7129° W*/
         var mark = {lat: 37.0902, lng: -95.7129};
@@ -41,13 +52,45 @@
           center: mark,
           zoom: 4
         });
-        var marker = new google.maps.Marker({
+          geocoder = new google.maps.Geocoder();
+      }
+        
+        function geocodeAddress(geocoder, resultsMap) {
+            
+            var address = document.getElementById('address').value;
+            
+            geocoder.geocode({'address': address}, function(results, status) {
+              if (status === 'OK') {
+                  
+                resultsMap.setCenter(results[0].geometry.location);
+                  console.log(results[0]);
+                var marker = new google.maps.Marker({
+                  map: resultsMap,
+                  position: results[0].geometry.location
+                });
+              } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+              } 
+            });
+        }
+                             
+        document.getElementById('submit').addEventListener('click', function() {
+          geocodeAddress(geocoder, map);
+        });
+        
+            
+       /* var marker = new google.maps.Marker({
           position: mark,
           map: map
-        });
-      }
+
+        });*/
+      
     </script>
+      
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBC4tSgxnpte2EB-N_VykFhK2b7-LcaHTE&callback=initMap"
     async defer></script>
+      
+      
+      
   </body>
 </html>
