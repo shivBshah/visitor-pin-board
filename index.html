@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <title>Prototype</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      #map {
+        width: 80%;
+        height: 80%;
+        margin: 0 auto;
+      }
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #btn{
+        margin: 0 auto;
+        border-radius: 0;
+        padding: 20px;
+        border: none;
+        
+      }
+      h1, h2{
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Welcome to West Monroe!</h1>
+    <h2>Where are you from?</h2>
+    <div id="map"></div>
+    <button id="btn">Click Me</button>
+    <script>
+      var map;
+      function initMap() {
+        /*37.0902° N, 95.7129° W*/
+        var mark = {lat: 37.0902, lng: -95.7129};
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: mark,
+          zoom: 4
+        });
+        var marker = new google.maps.Marker({
+          position: mark,
+          map: map
+        });
+      }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBC4tSgxnpte2EB-N_VykFhK2b7-LcaHTE&callback=initMap"
+    async defer></script>
+  </body>
+</html>
