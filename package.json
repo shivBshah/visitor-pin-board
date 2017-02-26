@@ -1,0 +1,14 @@
+{
+  "name": "kiosk-application",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+      "start": "electron main.js"
+  },
+  "author": "Shiv Shah",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^1.4.15"
+  }
+}
