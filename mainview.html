@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <title>Prototype</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="mainview-style.css"/>
+  </head>
+  <body onload=connectDatabase()>
+    <h1>Welcome to West Monroe!</h1>
+    <h2>Where are you from?</h2>
+    <center>
+        <div id="inputBox">
+            <input id="address" type="textbox" value="71212">
+            <input id="submit" type="button" value="Enter">
+        </div>
+    </center>
+    <div id="map"></div>
+    <div id = "button">
+      <button id="btn" onclick=showFrom()>Next</button>
+    </div>
+
+    <script src = "map-loader.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBC4tSgxnpte2EB-N_VykFhK2b7-LcaHTE&callback=initMap"
+    async defer></script>
+    <script src = "dbconnection.js"></script>
+  </body>
+</html>
