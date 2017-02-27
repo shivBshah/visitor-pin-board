@@ -4,11 +4,14 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-      "start": "electron main.js"
+    "start": "electron main.js"
   },
   "author": "Shiv Shah",
   "license": "ISC",
   "devDependencies": {
     "electron": "^1.4.15"
+  },
+  "dependencies": {
+    "mysql": "^2.13.0"
   }
 }

@@ -2,8 +2,10 @@ const electron = require('electron')
 const {app, BrowserWindow} = electron
 
 app.on('ready', () => {
-    let win = new BrowserWindow({width:1000, height:800})
+    let win = new BrowserWindow({show: false, darkTheme:true})
     win.setMenu(null);
-    win.loadURL(`file://${__dirname}/index.html`)
+    win.maximize();
+    win.loadURL(`file://${__dirname}/mainview.html`)
+    win.show();
     win.webContents.openDevTools();
 })
