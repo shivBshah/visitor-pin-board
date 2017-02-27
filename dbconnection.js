@@ -1,4 +1,5 @@
-function connectDatabase() {
+
+function dbConnection() {
   var mysql      = require('mysql');
   var connection = mysql.createConnection({
     host     : 'localhost',
@@ -6,22 +7,14 @@ function connectDatabase() {
     password : 'root',
     database : 'visitors'
   });
-
-  connection.connect((err) => {
+ return connection;
+  /*connection.connect((err) => {
     if(err){
       console.log('Database connection error');
     }else{
       console.log('Database connection successful');
+      return connection;
     }
-  });
-
-  connection.query('SELECT * FROM visitors', (error, results, fields) => {
-    if (error) {
-      return console.log("An error occurred with the query", error);
-    }
-    console.log('The solution is: ', results[0].Fname);
-  });
-
-  connection.end(err => console.log("Connection successfully closed"));
+  });*/
 
 }
