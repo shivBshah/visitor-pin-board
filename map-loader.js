@@ -9,11 +9,13 @@ function initMap() {
   var mark = {lat: 37.0902, lng: -95.7129};
   map = new google.maps.Map(document.getElementById('map'), {
     center: mark,
-    zoom: 4
+    zoom: 5
   });
   var geocoder = new google.maps.Geocoder();
   conn = dbConnection();
   connectToDatabase();
+  //load initial markers from the database
+  loadMarkers();
 
   document.getElementById('submit').addEventListener('click', () => geocodeAddress(geocoder, map));
   document.getElementById('next').addEventListener('click', () => saveMarker());
@@ -47,6 +49,21 @@ function connectToDatabase(){
   });
 }
 
+//logic to get markers locations from the database
+function loadMarkers(){
+  conn.query("SELECT lat,lng FROM markers", (error, results, fields) => {
+    if (error){
+      return console.log("An error occured: " + error);
+    }
+    results.forEach((item)=>{
+      marker = new google.maps.Marker({
+        map:map,
+        position: {lat: item.lat, lng: item.lng}
+      });
+    });
+  });
+}
+
 function saveMarker() {
   let address = geocodeResults[0].formatted_address;
   let lat = geocodeResults[0].geometry.location.lat();
@@ -56,6 +73,7 @@ function saveMarker() {
     if (error) {
       return console.log("An error occurred with the query", error);
     }
-    console.log('The solution is: ');
+    console.log('Marker stored in the database.');
   });
+  loadMarkers();
 }

@@ -8,13 +8,4 @@ function dbConnection() {
     database : 'visitors'
   });
  return connection;
-  /*connection.connect((err) => {
-    if(err){
-      console.log('Database connection error');
-    }else{
-      console.log('Database connection successful');
-      return connection;
-    }
-  });*/
-
 }
