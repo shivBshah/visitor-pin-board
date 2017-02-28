@@ -1,0 +1,22 @@
+{
+  "name": "report-prototype",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shivBshah/CSCI4060.git"
+  },
+  "author": "Josh Boyer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shivBshah/CSCI4060/issues"
+  },
+  "homepage": "https://github.com/shivBshah/CSCI4060#readme",
+  "devDependencies": {
+    "electron": "^1.4.15"
+  }
+}
