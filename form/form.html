@@ -6,7 +6,7 @@
   </body>
       <button id="next-btn"><strong>Next >></strong></button>
       <div id="form">
-          <form>
+          <form id = "vform" action="" method="POST">
             <label for "fname">Name*</label></br>
             <input name="fname" type="text" placeholder="First Name">
             <input name="lname" type="text" placeholder="Last Name"> </br>
@@ -29,22 +29,23 @@
             <input name="number" type="text" size=4></br>
             <div>
               <label for="reason">Reason for your travel</label></br>
-              <input name="business" type="radio" value="Business">Business
-              <input name="pleasure" type="radio" value="Pleasure">Pleasure
-              <input name="convention" type="radio" value="Convention">Convention
-              <input name="other" type="radio" value="Other">Other:
+              <input name="group1" type="radio" value="business">Business
+              <input name="group1" type="radio" value="pleasure">Pleasure
+              <input name="group1" type="radio" value="convention">Convention
+              <input name="group1" type="radio" value="other">Other:
               <input type="text" name="otherReason">
             </div>
             </br>
             <label for="hear">How did you hear about us?</label></br>
-            <input name="signs" type="radio" value="Business">Interstate Signs
-            <input name="billboard" type="radio" value="Billboard">Billboard
-            <input name="other" type="radio" value="Other">Other:
+            <input name="group2" type="radio" value="signs">Interstate Signs
+            <input name="group2" type="radio" value="billboard">Billboard
+            <input name="group2" type="radio" value="other">Other:
             <input type="text" name="otherReason"> </br>
             </br>
             <label for="stay"> Did you stay in a Monroe-West Monroe hotel?</label></br>
-            <input name="yes" type="radio" value="yes">Yes
-            <input name="no" type="radio" value="no">No
+            <input name="group3" type="radio" value="yes">Yes
+            <input name="group3" type="radio" value="no">No </br></br>
+            <input type = "submit"></input>
           </form>
     </div>
     <script src="form-action.js"></script>
