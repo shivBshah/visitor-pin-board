@@ -34,120 +34,47 @@
         color: white;
       }
 
+      #visitors th:hover{
+        background-color: #c5bd99;
+        cursor: pointer;
+      }
+
+      #dateFilter{
+        margin-bottom: 10px;
+      }
+
     </style>
+  </head>
 
     <body>
+      <div id="dateFilter">
+        <label for "date1">Date From</label></br>
+        <input name="date1" type="Date" placeholder="MM/DD/YYYY"></br>
+        <label for "date2">Date To</label></br>
+        <input name="date2" type="Date" placeholder="MM/DD/YYYY"></br>
+      </div>
+
+
     <table id="visitors">
       <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Email</th>
-        <th>Home City</th>
-        <th>Home State</th>
-        <th>Zipcode</th>
-        <th>Destination City</th>
-        <th>Destination State</th>
-        <th>Traveling For</th>
-        <th># In Party</th>
-        <th>Heard About CVB</th>
-        <th>Stayed In Hotel?</th>
-        <th>Date Visited</th>
-
-
+        <th onclick="sortTable(0)">First Name</th>
+        <th onclick="sortTable(1)">Last Name</th>
+        <th onclick="sortTable(2)">Email</th>
+        <th onclick="sortTable(3)">Home City</th>
+        <th onclick="sortTable(4)">Home State</th>
+        <th onclick="sortTable(5)">Zipcode</th>
+        <th onclick="sortTable(6)">Destination City</th>
+        <th onclick="sortTable(7)">Destination State</th>
+        <th onclick="sortTable(8)">Traveling For</th>
+        <th onclick="sortTable(9)"># In Party</th>
+        <th onclick="sortTable(10)">Heard About CVB</th>
+        <th onclick="sortTable(11)">Stayed In Hotel?</th>
+        <th onclick="sortTable(12)">Date Visitied</th>
       </tr>
-      <tr>
-        <td>temp</td>
-        <td>temp</td>
-        <td>temp</td>
-        <td>temp</td>
-        <td>temp</td>
-        <td>temp</td>
-        <td>temp</td>
-        <td>temp</td>
-        <td>temp</td>
-        <td>temp</td>
-        <td>temp</td>
-        <td>temp</td>
-        <td>temp</td>
-      </tr>
-      <tr>
-        <td>temp</td>
-        <td>temp</td>
-        <td>temp</td>
-        <td>temp</td>
-        <td>temp</td>
-        <td>temp</td>
-        <td>temp</td>
-        <td>temp</td>
-        <td>temp</td>
-        <td>temp</td>
-        <td>temp</td>
-        <td>temp</td>
-        <td>temp</td>
-      </tr>
-
     </table>
-
-
+    <script src = "dbconnection.js"></script>
+    <script src = 'SortTable.js'></script>
 
     </body>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <!--
-    <style>
-      #map {
-        width: 80%;
-        height: 80%;
-        margin: 0 auto;
-      }
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-      #btn{
-        margin: 0 auto;
-        border-radius: 0;
-        padding: 20px;
-        border: none;
-      }
-
-
-      h1, h2{
-        text-align: center;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Welcome to West Monroe!</h1>
-    <h2>Where are you from?</h2>
-
-
-    <center>
-    <div id="inputBox">
-    <input id="address" type="textbox" value="71212">
-    <input id="submit" type="button" value="Enter">
-    </div>
-      </center>
-
-    <div id="map"></div>
-    <button id="btn">Click Me</button>
-
-
-  </body>
-
--->
 </html>
