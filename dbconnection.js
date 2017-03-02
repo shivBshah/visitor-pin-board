@@ -29,10 +29,10 @@ function dbConnection() {
         display += "<td>" + visitor.Zipcode + "</td>";
         display += "<td>" + visitor.DestCity + "</td>";
         display += "<td>" + visitor.DestState + "</td>";
-        display += "<td>" + visitor.NumInParty + "</td>";
         display += "<td>" + visitor.TravelingFor + "</td>";
-        display += "<td>" + visitor.Hotel + "</td>";
+        display += "<td>" + visitor.NumInParty + "</td>";
         display += "<td>" + visitor.HearAboutCVB + "</td>";
+        display += "<td>" + visitor.Hotel + "</td>";
         display += "<td>" + visitor.Date + "</td>";
         display += "</tr>";
       }
