@@ -2,9 +2,9 @@
   "name": "kiosk-application",
   "version": "1.0.0",
   "description": "",
-  "main": "main.js",
+  "main": "app.js",
   "scripts": {
-    "start": "electron main.js"
+    "start": "electron app.js"
   },
   "author": "Shiv Shah",
   "license": "ISC",
@@ -12,6 +12,7 @@
     "electron": "^1.4.15"
   },
   "dependencies": {
+    "electron-reload": "^1.1.0",
     "mysql": "^2.13.0"
   }
 }
