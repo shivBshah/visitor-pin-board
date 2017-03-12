@@ -1,0 +1,58 @@
+<html>
+  <head>
+      <title>Visitor Form</title>
+      <link rel="stylesheet" href="form-style.css"/>
+  </head>
+  <body>
+      <button id="next-btn"><strong>Next >></strong></button>
+      <div id="form">
+            <form id = "vform" action="">
+              <label for "fname">Name*</label></br>
+              <input name="fname" type="text" placeholder="First Name">
+              <input name="lname" type="text" placeholder="Last Name"> </br>
+              <label for "email">What is the best email address for you?</label></br>
+              <input name="email" type="text" placeholder="Email" size=30> </br>
+              <div id="address">
+                <div id="homeAddress" class="addressRow">
+                  <label for "homeAddress">Where are you coming from?</label></br>
+                  <input name="homecity" type="text" placeholder="City" size=25> </br>
+                  <input name="homestate" type="text" placeholder="State" size=25> </br>
+                  <input name="zip" type="text" placeholder="Zip" size=25> </br>
+                </div>
+                <div id="destAddress" class="addressRow">
+                  <label for "destination">Where is your destination?</label></br>
+                  <input name="destcity" type="text" placeholder="City" size=25></br>
+                  <input name="deststate" type="text" placeholder="State" size=25></br>
+                </div>
+              </div>
+              <label>No. in Party: </label>
+              <input name="number" type="text" size=4></br>
+              <div>
+                <label for="reason">Reason for your travel</label></br>
+                <input name="group1" type="radio" value="business">Business
+                <input name="group1" type="radio" value="pleasure">Pleasure
+                <input name="group1" type="radio" value="convention">Convention
+                <input name="group1" type="radio" value="other">Other:
+                <input type="text" name="otherReason">
+              </div>
+              </br>
+              <label for="hear">How did you hear about us?</label></br>
+              <input name="group2" type="radio" value="signs">Interstate Signs
+              <input name="group2" type="radio" value="billboard">Billboard
+              <input name="group2" type="radio" value="other">Other:
+              <input type="text" name="otherReason"> </br>
+              </br>
+              <label for="stay"> Did you stay in a Monroe-West Monroe hotel?</label></br>
+              <input name="group3" type="radio" value="yes">Yes
+              <input name="group3" type="radio" value="no">No </br></br>
+              <button id="submit-button">Submit</button>
+            </form>
+    </div>
+    <script>
+      document.getElementById("next-btn").addEventListener('click', (event)=>{
+            document.getElementById("form").classList.toggle("show");
+      });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <title>Prototype</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="./styles/mainview-style.css"/>
+    <link rel="stylesheet" type="text/css" href="./styles/form-style.css"/>
+  </head>
+  <body>
+    <head>
+      <div class="maroon">
+      <h1>Welcome to West Monroe!</h1> <br/>
+      <h2>Where are you from?</h2>
+    </div>
+    </head>
+    <center>
+        <div id="inputBox">
+            <input id="address" type="text" placeholder="Enter place or zip..">
+            <input id="pin" type="button" value="Pin" onclick="geocode()">
+        </div>
+    </center>
+    <div id="map"></div>
+    <div id="form">
+          <form id = "vform">
+            <label for "fname">Name*</label><br/>
+            <input name="fname" type="text" placeholder="First Name">
+            <input name="lname" type="text" placeholder="Last Name"> <br/><br/>
+            <label for "email">What is the best email address for you?</label><br/>
+            <input name="email" type="text" placeholder="Email" size=30> <br/><br/>
+            <div id="address">
+              <div id="homeAddress" class="addressRow">
+                <label for "homeAddress">Where are you coming from?</label><br/>
+                <input name="homecity" type="text" placeholder="City" size=25> <br/>
+                <input name="homestate" type="text" placeholder="State" size=25> <br/>
+                <input name="zip" type="text" placeholder="Zip" size=25> <br/>
+              </div>
+              <div id="destAddress" class="addressRow">
+                <label for "destination">Where is your destination?</label><br/>
+                <input name="destcity" type="text" placeholder="City" size=25><br/>
+                <input name="deststate" type="text" placeholder="State" size=25>
+              </div>
+            </div>
+            <br/>
+            <label>No. in Party: </label>
+            <input name="number" type="text" size=4><br/><br/>
+            <div>
+              <label for="reason">Reason for your travel</label><br/>
+              <input name="group1" type="radio" value="business">Business
+              <input name="group1" type="radio" value="pleasure">Pleasure
+              <input name="group1" type="radio" value="convention">Convention
+              <input name="group1" type="radio" value="other">Other:
+              <input type="text" name="otherReason">
+            </div>
+            <br/><br/>
+            <label for="hear">How did you hear about us?</label><br/>
+            <input name="group2" type="radio" value="signs">Interstate Signs
+            <input name="group2" type="radio" value="billboard">Billboard
+            <input name="group2" type="radio" value="other">Other:
+            <input type="text" name="otherReason">
+            <br/><br/>
+            <label for="stay"> Did you stay in a Monroe-West Monroe hotel?</label><br/>
+            <input name="group3" type="radio" value="yes">Yes
+            <input name="group3" type="radio" value="no">No <br/><br/>
+            <input id="submit-button" type = "submit" value="Submit">
+          </form>
+    </div>
+
+    <div id = "button">
+      <button id="next">Next</button>
+    </div>
+    <script>
+      document.getElementById("next").addEventListener('click', ()=>{
+        document.getElementById("form").classList.toggle("show");
+      });
+    </script>
+    <script src = "./scripts/dbconnection.js"></script>
+    <script src = "./scripts/map-loader.js"></script>
+    <script src="./scripts/form-action.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBC4tSgxnpte2EB-N_VykFhK2b7-LcaHTE&callback=initMap"
+    async defer></script>
+  </body>
+</html>
