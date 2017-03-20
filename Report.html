@@ -68,13 +68,15 @@
         <th onclick="sortTable(8)">Traveling For</th>
         <th onclick="sortTable(9)"># In Party</th>
         <th onclick="sortTable(10)">Heard About CVB</th>
-        <th onclick="sortTable(11)">Stayed In Hotel?</th>
-        <th onclick="sortTable(12)">Date Visitied</th>
+        <th onclick="sortTable(11)">Hotel?</th>
+        <th onclick="sortTable(12)">Date Visited</th>
       </tr>
     </table>
-    <script src = "dbconnection.js"></script>
-    <script src = 'SortTable.js'></script>
 
+    <button id="exportBtn" onclick="exportToExcel();">Export</button>
+    <script src ="dbconnection.js"></script>
+    <script src ="SortTable.js"></script>
+    <script src ="exportTableToExcel.js"></script>
     </body>
 
 </html>
