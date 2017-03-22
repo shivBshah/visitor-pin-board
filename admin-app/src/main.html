@@ -5,12 +5,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <title>Admin Area | Dashboard</title>
-
     <!-- Bootstrap core CSS -->
-    <link href="../assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="main.css" rel="stylesheet">
+    <link href="../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./styles/main.css" rel="stylesheet">
   </head>
 
   <body>
@@ -23,13 +21,13 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Admin</a>
+          <!--<a class="navbar-brand" href="#">Admin</a>-->
         </div>
         <div id="navbar" class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
+          <!--<ul class="nav navbar-nav">
             <li class="active"><a href="home.html">Dashboard</a></li>
             <li><a href="#about">About</a></li>
-          </ul>
+          </ul>-->
           <ul class="nav navbar-nav navbar-right">
             <li><a href="#">Welcome Admin</a></li>
             <li><a href="login.html">Logout</a></li>
@@ -42,7 +40,7 @@
     <header id="header">
       <div class="container-fluid">
         <div class = "row">
-          <div class="col-md-10">
+          <div class="col-md-12">
             <h1><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Dashboard <small>Manage your application</small></h1>
           </div>
           <div class="cold-md-2">
@@ -53,7 +51,7 @@
     <section id="main">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-md-3">
+          <div class="col-md-2">
             <div class="list-group">
               <a href="dashboard.html" class="list-group-item active main-color-bg">
                 <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Dashboard
@@ -64,189 +62,113 @@
               <a href="#" class="list-group-item"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Program Settings</a>
             </div>
           </div>
-          <div class="col-md-9">
+          <div class="col-md-10">
             <div class="panel panel-default">
               <div class="panel-heading main-color-bg">
-                <h3 class="panel-title">Visitors Reports: Make your selection</h3>
+                <h2 class="panel-title lead"><strong>Visitors Database</strong></h2>
               </div>
               <div class="panel-body">
                 <!-- Form code begins -->
-                <form method="post">
-                  <div class="form-group"> <!-- Date input -->
-                    <label class="control-label" for="date">Date</label>
-                    <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
+                <p class="lead text-center"><strong>Filter Options</strong></p>
+                <div class="well">
+                  <form method="post" class="">
+                    <div class="row">
+                      <div class="form-group form-group-lg col-md-6"> <!-- Date input -->
+                          <label class="control-label" for="date">Date</label>
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="input-group">
+                                <div class="input-group-addon">FROM</div>
+                                <input class="form-control" id="date" name="date" placeholder="YYY/MM/DD" type="text"/>
+                              </div>
+                            </div>
+
+                            <div class="col-md-6">
+                              <div class="input-group">
+                                  <div class="input-group-addon">TO</div>
+                                  <input class="form-control" id="date" name="date" placeholder="YYY/MM/DD" type="text"/>
+                              </div>
+                            </div>
+                        </div>
+                      </div>
+                      <div class="form-group form-group-lg col-md-2"> <!-- Date input -->
+                        <label class="control-label" for="state">State</label>
+                        <input class="form-control" id="state" name="state"type="text"/>
+                      </div>
+                      <br/>
+                      <div class="form-group"> <!-- Submit button -->
+                        <button class="btn btn-default btn-lg" name="submit" type="submit">Submit</button>
+                      </div>
                   </div>
-                  <div class="form-group"> <!-- Date input -->
-                    <label class="control-label" for="location">Location</label>
-                    <input class="form-control" id="location" name="location"type="text"/>
-                  </div>
-                  <div class="form-group"> <!-- Submit button -->
-                    <button class="btn btn-primary " name="submit" type="submit">Submit</button>
-                  </div>
-                 </form>
-                 <!-- Form code ends -->
-                 <!--table code begins-->
-                 <div class="table-responsive">
-                   <table class="table table-striped">
+                </form>
+                </div>
+                   <!-- Form code ends -->
+                   <!--table code begins-->
+                 <hr>
+                 <div class="table-responsive col-md-12">
+                   <table id="visitorTable" class="table table-striped table-bordered table-hover">
                      <thead>
                        <tr>
-                         <th>#</th>
-                         <th>Header</th>
-                         <th>Header</th>
-                         <th>Header</th>
-                         <th>Header</th>
+                         <th>Id</th>
+                         <th onclick="sortTable(0)">First Name</th>
+                         <th onclick="sortTable(1)">Last Name</th>
+                         <th onclick="sortTable(2)">Email</th>
+                         <th onclick="sortTable(3)">Home City</th>
+                         <th onclick="sortTable(4)">Home State</th>
+                         <th onclick="sortTable(5)">Zipcode</th>
+                         <th onclick="sortTable(6)">Destination City</th>
+                         <th onclick="sortTable(7)">Destination State</th>
+                         <th onclick="sortTable(8)">Traveling For</th>
+                         <th onclick="sortTable(9)"># In Party</th>
+                         <th onclick="sortTable(10)">Heard About CVB</th>
+                         <th onclick="sortTable(11)">Hotel?</th>
                        </tr>
                      </thead>
-                     <tbody>
-                       <tr>
-                         <td>1,001</td>
-                         <td>Lorem</td>
-                         <td>ipsum</td>
-                         <td>dolor</td>
-                         <td>sit</td>
-                       </tr>
-                       <tr>
-                         <td>1,002</td>
-                         <td>amet</td>
-                         <td>consectetur</td>
-                         <td>adipiscing</td>
-                         <td>elit</td>
-                       </tr>
-                       <tr>
-                         <td>1,003</td>
-                         <td>Integer</td>
-                         <td>nec</td>
-                         <td>odio</td>
-                         <td>Praesent</td>
-                       </tr>
-                       <tr>
-                         <td>1,003</td>
-                         <td>libero</td>
-                         <td>Sed</td>
-                         <td>cursus</td>
-                         <td>ante</td>
-                       </tr>
-                       <tr>
-                         <td>1,004</td>
-                         <td>dapibus</td>
-                         <td>diam</td>
-                         <td>Sed</td>
-                         <td>nisi</td>
-                       </tr>
-                       <tr>
-                         <td>1,005</td>
-                         <td>Nulla</td>
-                         <td>quis</td>
-                         <td>sem</td>
-                         <td>at</td>
-                       </tr>
-                       <tr>
-                         <td>1,006</td>
-                         <td>nibh</td>
-                         <td>elementum</td>
-                         <td>imperdiet</td>
-                         <td>Duis</td>
-                       </tr>
-                       <tr>
-                         <td>1,007</td>
-                         <td>sagittis</td>
-                         <td>ipsum</td>
-                         <td>Praesent</td>
-                         <td>mauris</td>
-                       </tr>
-                       <tr>
-                         <td>1,008</td>
-                         <td>Fusce</td>
-                         <td>nec</td>
-                         <td>tellus</td>
-                         <td>sed</td>
-                       </tr>
-                       <tr>
-                         <td>1,009</td>
-                         <td>augue</td>
-                         <td>semper</td>
-                         <td>porta</td>
-                         <td>Mauris</td>
-                       </tr>
-                       <tr>
-                         <td>1,010</td>
-                         <td>massa</td>
-                         <td>Vestibulum</td>
-                         <td>lacinia</td>
-                         <td>arcu</td>
-                       </tr>
-                       <tr>
-                         <td>1,011</td>
-                         <td>eget</td>
-                         <td>nulla</td>
-                         <td>Class</td>
-                         <td>aptent</td>
-                       </tr>
-                       <tr>
-                         <td>1,012</td>
-                         <td>taciti</td>
-                         <td>sociosqu</td>
-                         <td>ad</td>
-                         <td>litora</td>
-                       </tr>
-                       <tr>
-                         <td>1,013</td>
-                         <td>torquent</td>
-                         <td>per</td>
-                         <td>conubia</td>
-                         <td>nostra</td>
-                       </tr>
-                       <tr>
-                         <td>1,014</td>
-                         <td>per</td>
-                         <td>inceptos</td>
-                         <td>himenaeos</td>
-                         <td>Curabitur</td>
-                       </tr>
-                       <tr>
-                         <td>1,015</td>
-                         <td>sodales</td>
-                         <td>ligula</td>
-                         <td>in</td>
-                         <td>libero</td>
-                       </tr>
-                     </tbody>
+
                    </table>
                  </div>
-                  <!--table code ends-->
-                  <form>
-                    <div class="form-group"> <!-- Submit button -->
-                      <button class="btn btn-primary " name="print" type="print">Print</button>
-                    </div>
-                    <div class="form-group"> <!-- Submit button -->
-                      <button class="btn btn-primary " name="export" type="export">Export To Excel</button>
-                    </div>
-                 </form>
+
+                  <div class="row">
+                   <!-- Print button -->
+                   <div class="col-md-2 col-md-offset-4">
+                     <button class="btn btn-default btn-lg" name="print" type="print">Print</button>
+                   </div>
+                   <!-- Export button -->
+                   <div class="col-md-2">
+                     <button class="btn btn-default btn-lg" name="export" type="export" onclick="exportToExcel()">Export To Excel</button>
+                   </div>
+                  </div><br/>
+
+              </div>
+                <!--table code ends-->
               </div>
             </div>
-          </div>
         </div>
-          </div>
+      </div>
     </section>
 
     <!-- Bootstrap core JavaScript -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+    <script>window.$ = window.jQuery = require('jquery');</script>
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
 
     <script>
+
     	$(document).ready(function(){
     		var date_input=$('input[name="date"]'); //our date input has the name "date"
     		var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
     		date_input.datepicker({
-    			format: 'mm/dd/yyyy',
+    			format: 'yyyy/mm/dd',
     			container: container,
     			todayHighlight: true,
     			autoclose: true,
     		});
     	});
     </script>
-
+    <script src="./scripts/dbconnection.js"></script>
+    <script src="./scripts/main.js"></script>
+    <script src="./scripts/sortTable.js"></script>
+    <script src="./scripts/excel-export.js"></script>
   </body>
 </html>

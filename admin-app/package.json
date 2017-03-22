@@ -12,7 +12,14 @@
     "electron": "^1.4.15"
   },
   "dependencies": {
+    "bootstrap": "^3.3.7",
     "electron-reload": "^1.1.0",
+    "electron-require": "^0.3.0",
+    "jquery": "^3.2.1",
+    "msexcel-builder": "0.0.2",
     "mysql": "^2.13.0"
+  },
+  "electron-require": {
+    "scripts": "src/scripts"
   }
 }
