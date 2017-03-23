@@ -18,7 +18,7 @@ body {
 
 /* style top nav bar */
 .navbar-default {
-  background-color: #961111;
+  background-color: #782D2D;
   border-color: #810c0c;
 }
 .navbar-default .navbar-brand {
@@ -74,7 +74,7 @@ body {
 
 /*Custom*/
 .main-color-bg {
-  background-color: #961111 !important;
+  background-color: #782D2D !important;
   border-color: #810c0c !important;
   color: #ffffff !important;
 }
@@ -91,13 +91,18 @@ body {
   height:50px;
 }
 button[type='submit']{
-  background-color:#810c0c;
+  background-color:#782D2D;
   color:white;
   width: 200px;
   height:50px;
 }
 #visitorTable tr{
   font-size: 15px;
+}
+.list-group .active{
+  background-color: #782D2D !important;
+  border-color: #810c0c !important;
+  color: #ffffff !important;
 }
 /*navbar top*/
 @media (max-width: 767px) {

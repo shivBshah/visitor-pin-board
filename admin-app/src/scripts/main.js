@@ -42,10 +42,8 @@ function buildQueryString(){
 function populateTable(queryString) {
    let connection = dbConnection();
    connection.connect();
-   console.log("here");
    let display = "<tbody>";
    connection.query(queryString, function(err, rows, fields){
-       console.log(rows.length);
        if (err) throw err;
        for (let visitor of rows) {
          display += "<tr>";
@@ -67,6 +65,10 @@ function populateTable(queryString) {
          display += "</tr>";
        }
        display += "</tbody>";
+       let info = ''+rows.length+' records found.';
+       document.getElementById('recordInfo').innerHTML = info;
+       document.querySelector('.alert').classList.toggle('alert-info',true);
+
        let table = document.getElementById('visitorTable');
 
        if (table.childNodes.length >= 4) {
