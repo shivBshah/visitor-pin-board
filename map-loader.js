@@ -25,7 +25,12 @@ function createMap() {
   map = new google.maps.Map(document.getElementById('map'), {
         center: mark,
         zoom: 5,
+        minZoom: 3,
         styles: styledata,
+        streetViewControl: false,
+        zoomControl: false,
+        mapTypeControlOptions: { mapTypeIds: []}
+                               
   });
 
     marker = new google.maps.Marker( {position: null, map: map} );
@@ -47,10 +52,13 @@ function createMap() {
         var latlng = new google.maps.LatLng(event.latLng.lat(), event.latLng.lng());
         reverseGeocode(geocoder, map, latlng);
         marker.setPosition(latlng);
+        map.setCenter(latlng);
+        map.setZoom(7);
     });
-  
+    
   document.getElementById('submit').addEventListener('click', () => geocodeAddress(geocoder, map));
   document.getElementById('next').addEventListener('click', () => saveMarker());    
+
 }
 
 function geocodeAddress(geocoder, resultsMap) {
@@ -132,4 +140,12 @@ function saveMarker() {
   loadMarkers();
 }
 
+function zoomOut()
+{
+    map.setZoom(map.getZoom()-1);
+}
 
+function zoomIn()
+{
+    map.setZoom(map.getZoom()+1);
+}
