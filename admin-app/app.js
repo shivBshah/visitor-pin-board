@@ -11,7 +11,7 @@ app.on('ready', () => {
     win = new BrowserWindow({show: false});
     win.setMenu(null);
     win.maximize();
-    win.loadURL(`file://${__dirname}/src/main.html`)
+    win.loadURL(`file://${__dirname}/src/views/login.html`)
 
     win.on('ready-to-show', function() {
           win.show();

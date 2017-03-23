@@ -19,7 +19,7 @@ window.onload = function() {
 function buildQueryString(){
   let fromDate = document.querySelectorAll('input[name="date"]')[0].value;
   let toDate = document.querySelectorAll('input[name="date"]')[1].value;
-  let state = document.querySelector('input[name="state"]').value;
+  let state = document.querySelector('select[name="state"]').value;
 
   let queryString = '';
   if(fromDate == '' && toDate == '' && state == ''){
