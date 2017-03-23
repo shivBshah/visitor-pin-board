@@ -5,36 +5,156 @@
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-      <link href="https://fonts.googleapis.com/css?family=Merienda+One" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Merienda+One" rel="stylesheet">
+    <!--<link href="./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">-->
+    <link href="./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="mainview-style.css"/>
+    <link href="./form-style.css" rel="stylesheet">
   </head>
   <body>
     <head>
         <div class="maroon">
-      <h1>Welcome to North Louisiana</h1>
-      <h2>Show us where you're from</h2>
+          <h1>Welcome to Northeast Louisiana</h1>
+          <h2>Show us where you're from</h2>
         </div>
     </head>
     <center>
         <div id="inputBox">
-            <p>Enter your Zip Code:</p><br>
-            <input id="address" type="textbox" value="71212">
-            <input id="submit" type="button" value="Enter">
+          <form class="form-inline">
+            <div class="form-group">
+              <input type="text" id = "address" class="form-control" placeholder="your city, state or zip">
+              <button class="btn btn-default" id="submit"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Pin</button>
+            </div>
+        </form>
         </div>
     </center>
     <div id="map"></div>
-      
+
     <button id="zoomIn" class="zoomButton" onclick="zoomIn()">+</button>
     <button id="zoomOut" class="zoomButton" onclick="zoomOut()">—</button>
-      
-    <div id = "button">
-      <button id="next", onclick="checkInput()">Next</button>
+
+    <!-- Button trigger modal -->
+    <button id="next" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+      Next
+    </button>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h3 class="modal-title" id="myModalLabel" style="text-align:center;">Visitor Registration</h3>
+            <h4 class="modal-title" style="text-align:center;">Please fill in the form below.</h4>
+          </div>
+          <br/>
+          <div class="modal-body">
+              <form id="vform" class="form-horizontal">
+                <div class="form-group">
+                  <label for="first" class="col-sm-3 control-label">Full Name</label>
+                  <div class="col-sm-3">
+                    <input type="text" class="form-control" id="first" placeholder="First Name">
+                  </div>
+                  <div class="col-sm-3
+                  <br/>">
+                    <input type="text" class="form-control" id="last" placeholder="Last Name">
+                  </div>
+                </div>
+                <br/>
+                <div class="form-group">
+                  <label for="hometown" class="col-sm-3 control-label">Hometown</label>
+                  <div class="col-sm-3">
+                    <input type="text" class="form-control" id="city" placeholder="City">
+                  </div>
+                  <div class="col-sm-3">
+                    <input type="text" class="form-control" id="state" placeholder="State">
+                  </div>
+                  <div class="col-sm-3">
+                    <input type="text" class="form-control" id="zip" placeholder="Zip Code">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="dest" class="col-sm-3 control-label">Destination</label>
+                  <div class="col-sm-3">
+                    <input type="text" class="form-control" id="destcity" placeholder="City">
+                  </div>
+                  <div class="col-sm-3">
+                    <input type="text" class="form-control" id="deststate" placeholder="State">
+                  </div>
+                </div>
+              <br/>
+              <div class="form-group">
+                  <label for="email" class="col-sm-3 control-label">Email</label>
+                  <div class="col-sm-5">
+                    <input type="email" class="form-control" id="email" placeholder="ex: myname@example.com">
+                  </div>
+              </div>
+              <br/>
+              <div class="form-group">
+                  <label for="number" class="col-sm-3 control-label">How many are in your group?</label>
+                  <div class="col-sm-2">
+                    <input type="number" class="form-control" id="number">
+                  </div>
+              </div>
+              <br/>
+              <div class="form-group">
+                <label for="reason" class="col-sm-3 control-label">What brought you to Monroe?</label>
+                <div class="col-sm-6">
+                  <div class="radio-inline">
+                      <label><input name="group1" type="radio" value="Business"> Business</label>
+                  </div>
+                  <div class="radio-inline">
+                      <label><input name="group1" type="radio" value="Pleasure"> Pleasure</label>
+                  </div>
+                  <div class="radio-inline">
+                      <label><input name="group1" type="radio" value="Convention"> Convention</label>
+                  </div>
+                  <div class="radio-inline">
+                      <label><input name="group1" type="radio" value="Other"> Other:</label>
+                  </div>
+                </div>
+                  <div class="col-sm-2">
+                    <input class="form-control" type="text" id="otherReason" placeholder="other">
+                  </div>
+                </div>
+                <br/>
+
+                <div class="form-group">
+                    <label for="hear" class="col-sm-3 control-label">How did you hear about us?</label>
+                    <div class="col-sm-5">
+                      <textarea class="form-control" id="hear"></textarea>
+                    </div>
+                </div>
+                <br/>
+                <div class="form-group">
+                  <label for="stay" class="col-sm-3 control-label">Are you staying in a Monroe/West Monroe hotel?</label>
+                    <div class="col-sm-4">
+                    <div class="radio">
+                        <label><input name="group2" type="radio" value="Yes">Yes</label>
+                    </div>
+                    <div class="radio">
+                        <label><input name="group2" type="radio" value="No">No</label>
+                    </div>
+                  </div>
+                </div>
+                <br/>
+              </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" id="submit-button" class="btn btn-primary" data-dismiss="modal">Submit</button>
+          </div>
+        </div>
+      </div>
     </div>
-      
+
+    <script>window.$ = window.jQuery = require('jquery');</script>
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src = "dbconnection.js"></script>
     <script src="markerclusterer.js"></script>
     <script src = "map-loader.js"></script>
-    
+    <script src = "form-action.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBC4tSgxnpte2EB-N_VykFhK2b7-LcaHTE&libraries=places&callback=initMap"
     async defer></script>
   </body>
