@@ -1,11 +1,9 @@
-/*  document.getElementById("next-btn").addEventListener('click', (event)=>{
-          document.getElementById("form").classList.toggle("show");
-    });*/
+
   const remote = require('electron').remote;
   const dialog = remote.dialog;
 
   window.onload = function(){
-    var form;
+    let form;
     document.getElementById('next').addEventListener('click', (e) => {
       e.preventDefault();
       console.log(document.getElementById("submit-button"));
@@ -18,8 +16,7 @@
         console.log("submitted");
       });
     });
-  }
-
+  };
 
   function saveData(){
       //event.preventDefault();
@@ -52,7 +49,7 @@
 
   function storeInDatabase(values){
      //alert("connecting to database");
-      var conn = dbConnection();
+      let conn = dbConnection();
 
       conn.connect((err)=>{
         if(err){

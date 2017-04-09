@@ -1,56 +1,30 @@
 "use strict";
-var fs = require('fs');
-var map;
-var conn;
-var marker;
-var geocodeResults;
-var styledata ;
-var geocoder;
-var markers=[];
-var locations=[];
-var mark;
+
+let DBConnection = require('./scripts/dbconnection.js');
+let MarkerClusterer = require('./scripts/marker-clusterer.js');
+let fs = require('fs');
+
+let map;
+let marker;
+let geocodeResults;
+let geocoder;
+
+//create database connection
+let conn = (function() {
+    let db = new DBConnection();
+    return db.connect();
+})();
+  
 
 function initMap() {
-    fs.readFile('google-maps-style.json', 'utf8', function (err,data) {
-        if (err) {
-            return console.log(err);
-        }
-          styledata = JSON.parse(data);
-          createMap();
-    });
-}
+   //read initial map style data from file
+    let styledata = fs.readFileSync('google-maps-style.json');
 
-function createMap() {
-  mark = new google.maps.LatLng(37.0902,-95.7129);
-
-  map = new google.maps.Map(document.getElementById('map'), {
-        center: mark,
-        zoom: 5,
-        minZoom: 3,
-        styles: styledata,
-        streetViewControl: false,
-        zoomControl: false,
-        mapTypeControlOptions: { mapTypeIds: []}
-
-  });
-
-    marker = new google.maps.Marker( {position: null, map: map} );
-    geocoder = new google.maps.Geocoder();
-
-  conn = dbConnection();
-  connectToDatabase();
-  //load initial markers from the database
-    loadMarkers(()=>{
-        var markerCluster = new MarkerClusterer(map, markers, {imagePath: './images/m'});
-    });
-
-
-   for (var i=0; i<markers.length; i++){
-        markerCluster.addMarker(markers[i]);
-    }
+    //create map with that style
+    createMap(JSON.parse(styledata));
 
     google.maps.event.addListener(map, 'click', function( event ){
-        var latlng = new google.maps.LatLng(event.latLng.lat(), event.latLng.lng());
+        let latlng = new google.maps.LatLng(event.latLng.lat(), event.latLng.lng());
         reverseGeocode(geocoder, map, latlng);
         marker.setPosition(latlng);
         if (map.getZoom() != 7){
@@ -60,12 +34,37 @@ function createMap() {
 
     });
 
-  document.getElementById('submit').addEventListener('click', (e) => {
-    e.preventDefault();
-    geocodeAddress(geocoder, map);
-  });
-  document.getElementById('next').addEventListener('click', () => saveMarker());
+    document.getElementById('submit').addEventListener('click', (e) => {
+      e.preventDefault();
+      geocodeAddress(geocoder, map);
+    });
+    document.getElementById('next').addEventListener('click', () => saveMarker());
 
+}
+
+function createMap(styledata) {
+   let mark = new google.maps.LatLng(37.0902,-95.7129);
+
+    map = new google.maps.Map(document.getElementById('map'), {
+          center: mark,
+          zoom: 5,
+          minZoom: 3,
+          styles: styledata,
+          streetViewControl: false,
+          zoomControl: false,
+          mapTypeControlOptions: { mapTypeIds: []}
+    });
+
+    marker = new google.maps.Marker( {position: null, map: map} );
+    geocoder = new google.maps.Geocoder();
+
+  //load initial markers from the database
+    loadMarkers((markers)=>{
+        let markerCluster = new MarkerClusterer(map, markers, {imagePath: './assets/images/clusters/m'});       
+      /*for (let i=0; i<markers.length; i++){
+              markerCluster.addMarker(markers[i]);
+      }*/
+    });
 }
 
 function geocodeAddress(geocoder, resultsMap) {
@@ -75,7 +74,7 @@ function geocodeAddress(geocoder, resultsMap) {
       resultsMap.setCenter(results[0].geometry.location);
       resultsMap.setZoom(7);
       geocodeResults = results;
-        marker.setPosition(results[0].geometry.location);
+      marker.setPosition(results[0].geometry.location);
     } else {
       alert('Geocode was not successful for the following reason: ' + status);
     }
@@ -85,54 +84,33 @@ function geocodeAddress(geocoder, resultsMap) {
 function reverseGeocode (geocode, resultsMap, latlng){
     geocoder.geocode({'latLng': latlng}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
-        geocodeResults = results;
+          geocodeResults = results;
         }
     });
-}
-
-function connectToDatabase(){
-  conn.connect((err) => {
-    if(err){
-      console.log(err);
-    }else{
-      console.log('Database connection successful');
-    }
-  });
 }
 
 //logic to get markers locations from the database
 function loadMarkers(callback){
   /*const remote = require('electron').remote;
   remote.getCurrentWindow().webContents.reload();*/
-  map.setCenter(mark);
+  let locations = [];
+  let markers=[];
+  
   map.setZoom(5);
   conn.query("SELECT lat,lng FROM markers", (error, results, fields) => {
-    if (error){
-      return console.log("An error occured: " + error);
-    }
-    results.forEach((item)=>{
-        locations.push({lat: item.lat, lng: item.lng});
-    });
+      if (error){
+        return console.log("An error occured: " + error);
+      }
+      results.forEach((item)=>{
+          locations.push({lat: item.lat, lng: item.lng});
+      });
 
-    var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
-     /*markers = locations.map(function(location, i) {
-            return new google.maps.Marker({
-            position: location,
-            label: labels[i % labels.length]
+      for (let i=0; i<locations.length; i++){
+          markers[i]= new google.maps.Marker({
+              position: locations[i],
           });
-        });
-    */
-    for (let i=0; i<locations.length; i++){
-        markers[i]= new google.maps.Marker({
-            position: locations[i],
-        });
-
-    }
-    console.log(locations);
-    console.log(markers);
-    callback();
-
+      }
+      callback(markers);
   });
 
 }
@@ -148,7 +126,7 @@ function saveMarker() {
     }
     console.log('Marker stored in the database.');
   });
-  loadMarkers();
+  // loadMarkers();
 }
 
 function zoomOut()

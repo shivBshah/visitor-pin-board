@@ -1,7 +1,3 @@
-// ==ClosureCompiler==
-// @compilation_level ADVANCED_OPTIMIZATIONS
-// @externs_url https://raw.githubusercontent.com/google/closure-compiler/master/contrib/externs/maps/google_maps_api_v3.js
-// ==/ClosureCompiler==
 
 /**
  * @name MarkerClusterer for Google Maps v3
@@ -63,7 +59,7 @@
  * @constructor
  * @extends google.maps.OverlayView
  */
-function MarkerClusterer(map, opt_markers, opt_options) {
+  function MarkerClusterer(map, opt_markers, opt_options) {
   // MarkerClusterer implements google.maps.OverlayView interface. We use the
   // extend function to extend MarkerClusterer with google.maps.OverlayView
   // because it might not always be available when the code is defined so we
@@ -1263,7 +1259,7 @@ ClusterIcon.prototype.createCss = function(pos) {
   return style.join('');
 };
 
-
+module.exports = MarkerClusterer;
 // Export Symbols for Closure
 // If you are not going to compile with closure then you can remove the
 // code below.
