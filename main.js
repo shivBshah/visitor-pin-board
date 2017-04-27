@@ -8,6 +8,7 @@ let map;
 let marker;
 let geocodeResults;
 let geocoder;
+let autocomplete;
 
 //create database connection
 let conn = (function() {
@@ -27,6 +28,7 @@ function initMap() {
         let latlng = new google.maps.LatLng(event.latLng.lat(), event.latLng.lng());
         reverseGeocode(geocoder, map, latlng);
         marker.setPosition(latlng);
+        
         if (map.getZoom() != 7){
           map.setCenter(latlng);
         }
@@ -37,6 +39,7 @@ function initMap() {
     document.getElementById('submit').addEventListener('click', (e) => {
       e.preventDefault();
       geocodeAddress(geocoder, map);
+        
     });
     document.getElementById('next').addEventListener('click', () => saveMarker());
 
@@ -54,16 +57,34 @@ function createMap(styledata) {
           zoomControl: false,
           mapTypeControlOptions: { mapTypeIds: []}
     });
+    
+    marker = new google.maps.Marker( {position: null, map: map, draggable:true, animation: google.maps.Animation.DROP} );
+    marker.setIcon("./assets/images/pin/new_pin.png");
+    
+      geocoder = new google.maps.Geocoder();
 
-    marker = new google.maps.Marker( {position: null, map: map} );
-    geocoder = new google.maps.Geocoder();
-
+    autocomplete = new google.maps.places.Autocomplete(
+                  (document.getElementById('address')),
+                  { types: ['geocode'] });
+              google.maps.event.addListener(autocomplete, 'place_changed', function() {
+              });
   //load initial markers from the database
     loadMarkers((markers)=>{
         let markerCluster = new MarkerClusterer(map, markers, {imagePath: './assets/images/clusters/m'});       
       /*for (let i=0; i<markers.length; i++){
               markerCluster.addMarker(markers[i]);
       }*/
+    });
+    
+      google.maps.event.addListener(marker, "dragstart", function (event) {
+   marker.setAnimation(3); // raise
+    });
+
+    google.maps.event.addListener(marker, "dragend", function (event) {
+        marker.setAnimation(4); // fall
+        let latlng = new google.maps.LatLng(event.latLng.lat(), event.latLng.lng());
+        reverseGeocode(geocoder, map, latlng);
+        marker.setPosition(latlng);
     });
 }
 
@@ -74,6 +95,7 @@ function geocodeAddress(geocoder, resultsMap) {
       resultsMap.setCenter(results[0].geometry.location);
       resultsMap.setZoom(7);
       geocodeResults = results;
+      document.getElementById("homeAddress").innerHTML=geocodeResults[0].formatted_address;
       marker.setPosition(results[0].geometry.location);
     } else {
       alert('Geocode was not successful for the following reason: ' + status);
@@ -85,6 +107,7 @@ function reverseGeocode (geocode, resultsMap, latlng){
     geocoder.geocode({'latLng': latlng}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
           geocodeResults = results;
+          document.getElementById("homeAddress").innerHTML=geocodeResults[0].formatted_address;
         }
     });
 }
