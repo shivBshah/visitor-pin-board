@@ -33,7 +33,8 @@
     </center>
 
     <div id="map"></div>
-      <div id="pin-address-display"><h2>Is this your Address?</h2>
+      <div id="pin-address-display">
+          <h2>Is this your Address?</h2>
           <h3 id="homeAddress">Pin your home address on the map, or type it in above!</h3>
           <!-- Button trigger modal -->
       <button id="myBtn" type="button" class="btn btn-success btn-lg">Yes!</button>
@@ -53,7 +54,7 @@
                         <div id="first-content">
                                 <div class="form-group">
                                     <label for="reasonForVisit"><h4>What brought you to Monroe?</h4></label>
-                                          <div id="visit-reason" class="btn-toolbar" data-toggle="buttons">
+                                        <div id="visit-reason" class="btn-toolbar" data-toggle="buttons">
                                           <label class="btn btn-primary btn-lg">
                                             <input type="radio" name="options" id="business" autocomplete="off" checked> Business
                                           </label>
@@ -69,8 +70,8 @@
                                         </div>
                                 </div>
                                 <div class="form-group">
-                                        <label for="infomation-source"><h4>How did you hear about us?</h4></label>
-                                                <div id="info-source" class="btn-toolbar" data-toggle="buttons">
+                                        <label for="info-source"><h4>How did you hear about us?</h4></label>
+                                          <div id="info-source" class="btn-toolbar" data-toggle="buttons">
                                           <label class="btn btn-primary btn-lg active">
                                             <input type="radio" name="options" id="friend" autocomplete="off" checked> Friends/Family
                                           </label>
@@ -87,7 +88,7 @@
                                 </div>
                                 <div class="form-group">
                                         <label for="reasonForVisit"><h4>Are you staying in a Monroe/West Monroe hotel?</h4></label>
-                                        <div class="btn-toolbar" data-toggle="buttons">
+                                        <div id="hotelStay" class="btn-toolbar" data-toggle="buttons">
                                           <label class="btn btn-lg btn-primary active">
                                             <input type="radio" name="options" id="yes" autocomplete="off" checked> Yes
                                           </label>
@@ -102,9 +103,9 @@
                         <div class="step well">Step 2
                                 <div id="second-content">
                                     <h4>How many people are in your party?</h4>
-                                    <div class="input-group">
+                                    <div class="input-group col-md-4">
                                         <span class="input-group-btn"><button class="btn btn-default value-control" data-action="minus" data-target="font-size"><span class="glyphicon glyphicon-minus"></span></button></span>
-                                        <input type="text" value="1" class="form-control" id="font-size">
+                                        <input type="text" value="1" class="form-control" id="number">
                                         <span class="input-group-btn"><button class="btn btn-default value-control" data-action="plus" data-target="font-size"><span class="glyphicon glyphicon-plus"></span></button></span>
                                     </div>
                                     <div class="form-group">
@@ -117,13 +118,13 @@
                                     </div>
                                 </div>
                         </div>
-                    <div class="step well">Step 3
+                     <div class="step well">Step 3
                                 <center><H1>Thanks for the information!!</H1>
                                 <img class="image-last" src="assets/images/visitors-bureau-logo.jpeg"><img class="image-last" src="assets/images/ULM-logo.jpg"></center>
-                                </div>
-                    <button class="action back btn btn-info btn-lg">Back</button>
-                    <button class="action next btn btn-info btn-lg">Next</button>
-                    <button id = "done-button" class="action submit btn btn-success btn-lg">Done!</button>
+                         </div>
+                    <button id="back-button"class="action back btn btn-info btn-lg">Back</button>
+                    <button id="next-button" class="action next btn btn-info btn-lg">Next</button>
+                    <button id="done-button" class="action submit btn btn-success btn-lg">Done!</button>
                     <button id="close-button" class="action cancel btn btn-danger btn-lg">Cancel</button>
                     </div>
                 </div>

@@ -1,27 +1,30 @@
+let saveInfo = require('./main.js');
+
 // Get the modal
 window.onload = function(){
-let modal = document.querySelector('#myModal');
+    let modal = document.querySelector('#myModal');
 
-// Get the button that opens the modal
-let btn = document.querySelector("#myBtn");
+    // Get the button that opens the modal
+    let btn = document.querySelector("#myBtn");
 
-// Get the <span> element that closes the modal
-let span = document.querySelector(".close");
+    // Get the <span> element that closes the modal
+    let span = document.querySelector(".close");
 
-var close = document.getElementById('close-button');
-    close.onclick = function () {
-        document.getElementById("myModal").style.display = "none";
-    };
+    var close = document.getElementById('close-button');
+        close.onclick = function () {
+            document.getElementById("myModal").style.display = "none";
+        };
 
-// When the user clicks on the button, open the modal 
-btn.onclick = function() {
-    modal.style.display = "block";
-}
+    // When the user clicks on the button, open the modal 
+    btn.addEventListener('click', ()=>{
+        modal.style.display = "block";
+    });
 
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-    modal.style.display = "none";
-}};
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+};
 
     $(document).ready(function(){
 	var current = 1;
@@ -42,9 +45,11 @@ span.onclick = function() {
 		if(current < widget.length){ 			
                    widget.show(); 			
                    widget.not(':eq('+(current++)+')').hide();
-  		   setProgress(current); 
+                   console.log(widget);
+  		        setProgress(current); 
 	       } 		
-               hideButtons(current); 	
+               hideButtons(current); 
+           	
        }) 	
        // Back button click action 	
        btnback.click(function(){ 		
