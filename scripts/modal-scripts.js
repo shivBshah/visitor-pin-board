@@ -1,4 +1,4 @@
-let saveInfo = require('./main.js');
+//let saveInfo = require('./main.js');
 
 // Get the modal
 window.onload = function(){
