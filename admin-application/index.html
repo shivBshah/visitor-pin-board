@@ -20,7 +20,7 @@
           <ul>
             <li class="active"><a href="#"><i class="fa fa-th fa-2x" aria-hidden="true"></i><br/>Dashboard</a></li>
             <li><a href="#"><i class="fa fa-database fa-2x" aria-hidden="true"></i><br/>Database</a></li>
-            <li><a href="#"><i class="fa fa-bar-chart fa-2x" aria-hidden="true"></i><br/>Graphs</a></li>
+            <li><a href="#"><i class="fa fa-bar-chart fa-2x" aria-hidden="true"></i><br/>Constant Contact</a></li>
             <li><a href="#"><i class="fa fa-line-chart fa-2x" aria-hidden="true"></i><br/>Analytics</a></li>
             <li><a href="#"><i class="fa fa-cog fa-2x" aria-hidden="true"></i><br/>Settings</a></li>
             <hr>
@@ -335,9 +335,28 @@
               <button  type="button" id="export" onclick="exportToExcel()" class="btn btn-primary">Export</button>
             </div>
         </div>
-        <!-- graph page -->
-        <div id="graphs" class='content'>
-          <h1>Graphs </h1>
+        <!-- constant contact page -->
+        <div id="constant-contact" class='content'>
+          <h3>Previous Constant Contact Exports</h3>
+          <div class="row">
+            <table id="constant-contact-table" class='table table-responsive table-striped table-bordered col-md-6'>
+              <thead>
+                <tr>
+                    <th>Date Range</th>
+                    <th>Number of Emails</th>
+                </tr>
+              </thead>
+            </table>
+          </div><br/>
+          <h3>Pending Constant Contact Export</h3>
+          <p>16 emails exports pending for date range mm/dd/yyyy-mm/dd/yyyy</p>
+          <label for="dateRange">Date Range</label>
+          <div class="input-group col-md-4 col-sm-4 col-lg-4">
+            <input type="date" class="form-control" id="dateFrom-con" placeholder="">
+            <div class="input-group-addon">to</div>
+            <input type="date" class="form-control" id="dateTo-con" placeholder="">
+          </div><br/>
+          <button type="button" class="btn btn-primary" id="export-constant-contact">Export Emails for selected date range</button>
         </div>
         <!-- analytics page -->
         <div id="analytics" class='content'>

@@ -7,7 +7,7 @@ let conn = (function() {
 })();
 
 let tabs = document.getElementsByTagName("li");
-const tabPages = ['dashboard', 'database', 'graphs', 'analytics', 'settings'];
+const tabPages = ['dashboard', 'database', 'constant-contact', 'analytics', 'settings'];
 let contentPages = document.getElementsByClassName('content');
 for(let i = 0; i < tabs.length-1; i++){
   tabs[i].addEventListener('click', ()=>{
@@ -106,60 +106,163 @@ function loadContents(contentPage){
   }
   //define actions for settings page
   else if (id == 'settings') {
-
     let checkboxes = contentPage.querySelectorAll(".card-container input[type='checkbox']");
     for(let c of checkboxes){
       c.onclick = ()=>{
         c.parentNode.childNodes[5].disabled = !c.parentNode.childNodes[5].disabled;
       };
     }
-    conn.query("SELECT * FROM map_settings", (err,rows,fields)=>{
-      if(err) throw error;
-      for(let i=0; i < rows.length; i++){
-        if (rows[i].status != 'disabled'){
-          checkboxes[i].checked = true;
-          checkboxes[i].parentNode.childNodes[5].disabled = false;
-          checkboxes[i].parentNode.childNodes[5].value = rows[i].value;
-        }
-      }
-    });
-
+    loadInitialSettings(checkboxes);
     contentPage.querySelector("#saveMapSettings").onclick = ()=>{
-      let values = [];
-      for (let i = 0; i < checkboxes.length; ++i){
-        if (checkboxes[i].checked){
-          let value = checkboxes[i].parentNode.childNodes[5].value;
-          if (value){
-            conn.query(`UPDATE map_settings SET status="enabled", value=${value} WHERE id=${i+1}`,(err,rows,fields)=>{
-              if (err) throw err;
-            });
-          }
-        }
-      }
+       saveMapSettings(checkboxes);
     };
-
     contentPage.querySelector("#resetToDefault").onclick = ()=>{
-      for(let i =0; i < checkboxes.length; i++){
-        checkboxes[i].parentNode.childNodes[5].value='';
-        checkboxes[i].checked = false;
-        checkboxes[i].parentNode.childNodes[5].disabled = true;
-        conn.query(`UPDATE map_settings SET status="disabled", value=-1 WHERE id=${i+1}`,(err,rows,fields)=>{
-          if (err) throw err;
-        });
-      }
-      // checkboxes[0].checked = false;
-      // checkboxes[1].checked = false;
-      // checkboxes.parentNode.childNodes[2].value = '';
-      //
-      // conn.query(`UPDATE map_settings SET status="disabled", value=-1 WHERE id=2`,(err,rows,fields)=>{
-      //   if (err) throw err;
-      //   console.log('record updated successfully');
-      // });
+      resetMapSettings(checkboxes);
     };
+  }//define actions for constant-contact page
+  else if (id=="constant-contact") {
+    loadPreviousExports(contentPage);//load previous exports for constant contact
 
+    //add listener to export emails upon clicking the button
+    let exportContactButton = contentPage.querySelector("#export-constant-contact");
+    exportContactButton.onclick = function(){
+      exportEmailLists(contentPage);
+    };
   }
 }
 
+/*-------------------------------------------------------------------------
+          SETTINGS PAGE FUNCTIONS SECTION
+  -------------------------------------------------------------------------*/
+function loadInitialSettings(checkboxes){
+  conn.query("SELECT * FROM map_settings", (err,rows,fields)=>{
+    if(err) throw error;
+    for(let i=0; i < rows.length; i++){
+      if (rows[i].status != 'disabled'){
+        checkboxes[i].checked = true;
+        checkboxes[i].parentNode.childNodes[5].disabled = false;
+        checkboxes[i].parentNode.childNodes[5].value = rows[i].value;
+      }
+    }
+  });
+}
+
+function saveMapSettings(checkboxes){
+  let values = [];
+  for (let i = 0; i < checkboxes.length; ++i){
+    if (checkboxes[i].checked){
+      let value = checkboxes[i].parentNode.childNodes[5].value;
+      if (value){
+        conn.query(`UPDATE map_settings SET status="enabled", value=${value} WHERE id=${i+1}`,(err,rows,fields)=>{
+          if (err) throw err;
+        });
+      }
+    }
+  }
+}
+
+function resetMapSettings(checkboxes){
+  for(let i =0; i < checkboxes.length; i++){
+    checkboxes[i].parentNode.childNodes[5].value='';
+    checkboxes[i].checked = false;
+    checkboxes[i].parentNode.childNodes[5].disabled = true;
+    conn.query(`UPDATE map_settings SET status="disabled", value=-1 WHERE id=${i+1}`,(err,rows,fields)=>{
+      if (err) throw err;
+    });
+  }
+}
+
+
+/*-------------------------------------------------------------------------
+          CONSTANT CONTACT FUNCTIONS SECTION
+  -------------------------------------------------------------------------*/
+//function to load previous constant contact exports
+function loadPreviousExports(contentPage){
+  let queryString = "SELECT date_from, date_to, number FROM constantcontact ORDER BY date_to DESC";
+  let constantTable = contentPage.querySelector("#constant-contact-table");
+  let display = "<tbody>"
+  conn.query(queryString, (err,results,fields)=>{
+    if (err) throw err;
+    for(let result of results){
+      display += "<tr>";
+      display += "<td>" + formatDate(new Date(result.date_from)) + " to "+ formatDate(new Date(result.date_to)) + "</td>";
+      display += "<td>" + result.number + "</td>";
+      display += "</tr>"
+    }
+
+    if (results.length == 0){
+      display += "<tr> <td colspan='14' rowspan='3' style=' font-size: 20px;'>No Previous Exports</td></tr>";
+    }
+    display += "</tbody>";
+    if (constantTable.childNodes.length >= 4) {
+      constantTable.removeChild(constantTable.lastChild);
+    }
+     constantTable.innerHTML += display;
+     displayPendingExport(contentPage, results);
+  });
+}
+
+//function to query database to display pending email exports for constant contact
+function displayPendingExport(contentPage, results){
+  let dateFrom = "";
+  let dateTo = formatDate(new Date());
+  let info =  contentPage.querySelector("#constant-contact p");
+  if (results.length == 0)
+  {
+    conn.query("SELECT date_visited FROM visitors", (err,rows,fields)=>{
+      if (rows.length != 0){
+         dateFrom = formatDate(new Date(rows[0].date_visited));
+         if (dateFrom != dateTo){
+           info.innerHTML = "Exports pending for date range: <b>" + dateFrom + " to " + dateTo+"</b>";
+           contentPage.querySelector("#dateFrom-con").value = rows[0].date_visited.toISOString().substring(0, 10);;
+           contentPage.querySelector("#dateTo-con").value = (new Date()).toISOString().substring(0, 10);
+         }
+         else {
+           info.innerHTML = "<b>No exports pending for now</b>";
+         }
+      }
+    });
+  }
+ else  {
+   dateFrom = formatDate(new Date(results[0].date_to));
+   if (dateFrom != dateTo){
+     contentPage.querySelector("#dateFrom-con").value = results[0].date_to.toISOString().substring(0, 10);
+     contentPage.querySelector("#dateTo-con").value = (new Date()).toISOString().substring(0, 10);
+     info.innerHTML = "Exports pending for date range: <b>" + dateFrom + " to " + dateTo + "</b>";
+   }
+   else
+     info.innerHTML = "<b>No exports pending for now</b>";
+ }
+}
+
+//function to format given date in the format mm/dd/yyyy
+function formatDate(date){
+  let dd = date.getDate();
+  let mm = date.getMonth()+1;
+  let yyyy = date.getFullYear();
+  return mm+"/"+dd+"/"+yyyy;
+}
+
+//function to export email list for constant contact
+function exportEmailLists(contentPage){
+    let dateFrom = contentPage.querySelector("#dateFrom-con").value;
+    let dateTo = contentPage.querySelector("#dateTo-con").value;
+    if (dateFrom && dateTo){
+      conn.query(`SELECT email FROM visitors WHERE date_visited BETWEEN DATE_FORMAT("${dateFrom}", '%y-%m-%d') AND DATE_FORMAT("${dateTo}", '%y-%m-%d')`, (err,results, fields)=>{
+        let emails = [];
+        let count = 0;
+        for (let email of results){
+          if (email){
+            emails.push(email);
+            count++;
+          }
+        }
+        conn.query("INSERT INTO constantcontact(date_from, date_to, number) VALUES(?,?,?)", [dateFrom,dateTo,count], (err,results,fields)=>{
+          if (err) throw err;
+        });
+      });
+    }
+}
 // function listenCheckboxes(databasePage){
 //   let table = databasePage.querySelector("#visitorTable");
 //   let dataRows = table.querySelectorAll("tbody tr");
@@ -170,6 +273,10 @@ function loadContents(contentPage){
 //    });
 //   }
 // }
+
+/*-------------------------------------------------------------------------
+          DATABASE PAGE FUNCTIONS SECTION
+  -------------------------------------------------------------------------*/
 /*
   function to query database to get the metro area for provided city and state
 */
@@ -263,53 +370,3 @@ function buildRestQuery(form){
   }
   return restQuery;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // document.getElementById("content").src = './views/' + "data-table.html";
-/*var init = function(){
-  $("#content").load("./views/data-table.html");
-  let tabs = document.getElementsByTagName("li");
-  const tabPages = ['dashboard-page.html', 'data-table.html', 'graphs.html', 'analytics.html', 'settings.html', 'login.html'];
-
-  for(let i = 0; i < tabs.length; i++){
-     tabs[i].addEventListener('click', ()=>{
-         document.querySelector("#title p").innerHTML = tabs[i].childNodes[0].textContent;
-         if (!tabs[i].classList[0]){
-           tabs[i].classList.add("active");
-           //document.getElementById("content").src = './views/' + tabPages[i];
-           $("#content").load("./views/" + tabPages[i]);
-           for (let j = 0; j < tabs.length; j++){
-             if (tabs[i] !== tabs[j]){
-                   tabs[j].classList.remove("active");
-             }
-           }
-         }
-
-     });
-  }
-}()*/
-
-// window.onload = function(){
-//   let table = document.getElementById('visitorTable');
-//   table.innerHTML = table.innerHTML + "<tr><td>First</td><td>Last</td></tr>";
-//
-// }

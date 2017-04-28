@@ -12,6 +12,7 @@
   "dependencies": {
     "admin-lte": "^2.3.11",
     "electron": "^1.6.2",
+    "electron-reload": "^1.1.0",
     "msexcel-builder": "0.0.2",
     "mysql": "^2.13.0"
   }
