@@ -1,0 +1,160 @@
+<html>
+  <head>
+     <link href="../bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../styles/data-table.css" rel="stylesheet"> 
+  </head>
+  <body>
+    <div class="panel panel-default">
+      <div class="panel-heading" role="tab" id="headingOne">
+        <h4 class="panel-title">
+          <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            Filter Options
+            <i class="fa fa-bars" aria-hidden="true" style="text-align: right;"></i>
+          </a>
+        </h4>
+      </div>
+      <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+        <div class="panel-body">
+          <form class="form">
+            <div class = "row">
+                <div class="col-md-2 form-group">
+                  <label for="city">City</label>
+                  <input type="text" class="form-control" id="city" placeholder="All">
+                </div>
+                <div class="col-md-2 form-group">
+                  <label for="state">State</label>
+                  <select class="form-control">
+                    <option value="All">All</option>
+                    <option value="Alabama"> Alabama </option>
+                    <option value="Alaska"> Alaska </option>
+                    <option value="Arizona"> Arizona </option>
+                    <option value="Arkansas"> Arkansas </option>
+                    <option value="California"> California </option>
+                    <option value="Colorado"> Colorado </option>
+                    <option value="Connecticut"> Connecticut </option>
+                    <option value="Delaware"> Delaware </option>
+                    <option value="District of Columbia"> District of Columbia </option>
+                    <option value="Florida"> Florida </option>
+                    <option value="Georgia"> Georgia </option>
+                    <option value="Hawaii"> Hawaii </option>
+                    <option value="Idaho"> Idaho </option>
+                    <option value="Illinois"> Illinois </option>
+                    <option value="Indiana"> Indiana </option>
+                    <option value="Iowa"> Iowa </option>
+                    <option value="Kansas"> Kansas </option>
+                    <option value="Kentucky"> Kentucky </option>
+                    <option value="Louisiana"> Louisiana </option>
+                    <option value="Maine"> Maine </option>
+                    <option value="Maryland"> Maryland </option>
+                    <option value="Massachusetts"> Massachusetts </option>
+                    <option value="Michigan"> Michigan </option>
+                    <option value="Minnesota"> Minnesota </option>
+                    <option value="Mississippi"> Mississippi </option>
+                    <option value="Missouri"> Missouri </option>
+                    <option value="Montana"> Montana </option>
+                    <option value="Nebraska"> Nebraska </option>
+                    <option value="Nevada"> Nevada </option>
+                    <option value="New Hampshire"> New Hampshire </option>
+                    <option value="New Jersey"> New Jersey </option>
+                    <option value="New Mexico"> New Mexico </option>
+                    <option value="New York"> New York </option>
+                    <option value="North Carolina"> North Carolina </option>
+                    <option value="North Dakota"> North Dakota </option>
+                    <option value="Ohio"> Ohio </option>
+                    <option value="Oklahoma"> Oklahoma </option>
+                    <option value="Oregon"> Oregon </option>
+                    <option value="Pennsylvania"> Pennsylvania </option>
+                    <option value="Rhode Island"> Rhode Island </option>
+                    <option value="South Carolina"> South Carolina </option>
+                    <option value="South Dakota"> South Dakota </option>
+                    <option value="Tennessee"> Tennessee </option>
+                    <option value="Texas"> Texas </option>
+                    <option value="Utah"> Utah </option>
+                    <option value="Vermont"> Vermont </option>
+                    <option value="Virginia"> Virginia </option>
+                    <option value="Washington"> Washington </option>
+                    <option value="West Virginia"> West Virginia </option>
+                    <option value="Wisconsin"> Wisconsin </option>
+                    <option value="Wyoming"> Wyoming </option>
+                  </select>
+                </div>
+                <div class="col-md-1 form-group">
+                  <label for="zip">Zip</label>
+                  <input type="text" class="form-control" id="zip" placeholder="All">
+                </div>
+                <div class="col-md-2 form-group">
+                  <label for="country">Country</label>
+                  <input type="text" class="form-control" id="country" placeholder="All">
+                </div>
+                <div class="col-md-4 form-group">
+                  <label for="dateRange">Date Range</label>
+                  <div class="input-group">
+                    <input type="date" class="form-control" id="dataFrom" placeholder="">
+                    <div class="input-group-addon">to</div>
+                    <input type="date" class="form-control" id="dataTo" placeholder="">
+                  </div>
+                </div>
+            </div>
+          </form>
+          <div class="row">
+            <div class="col-md-9"
+            <a class="btn btn-link" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+              More Filter Options >>
+            </a>
+            <div class="collapse" id="collapseExample">
+              <div class="well">
+              </div>
+            </div>
+          </div>
+            <div class="">
+              <button id="filter" type="button" class="btn btn-default"><i class="fa fa-filter" aria-hidden="true"></i> Filter</button>
+              <button id="clear" type="button" class="btn btn-default"><i class="fa fa-eraser" aria-hidden="true"></i> Clear</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- buttons to add, edit and delete record to/from the table -->
+
+    <div class="col-md-offset-5 btn-group" role="group" aria-label="...">
+      <button type="button" class="btn btn-default">Add</button>
+      <button type="button" class="btn btn-default">Edit</button>
+      <button type="button" class="btn btn-default">Delete</button>
+    </div>
+     <div class="card">
+      <h3 class="card-header">Featured</h3>
+      <div class="card-block">
+        <h4 class="card-title">Special title treatment</h4>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+      </div>
+    </div>
+    <table id="visitorTable" class='table table-responsive table-striped table-bordered table-hover'>
+      <thead>
+        <col width = "20">
+        <tr>
+           <th>Id</th>
+           <th>First Name</th>
+           <th>Last Name</th>
+           <th>Email</th>
+           <th>Home City</th>
+           <th>Home State</th>
+           <th>Zipcode</th>
+           <th>Destination City</th>
+           <th>Destination State</th>
+           <th>Traveling For</th>
+           <th># In Party</th>
+           <th>Heard About CVB</th>
+           <th>Hotel?</th>
+        </tr>
+      </thead>
+    </table>
+    <!-- <script src="../jquery-3.2.1.min.js"></script>
+    <script src="../scripts/data-table.js"></script>
+    <script src="../bootstrap-3.3.7-dist/js/bootstrap.min.js"></script> -->
+  </body>
+
+</html>
