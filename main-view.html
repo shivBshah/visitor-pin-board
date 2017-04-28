@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <title>Prototype</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Merienda+One" rel="stylesheet">
+    <!--<link href="./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">-->
+    <link href="./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="main-view-style.css"/>
+    <link href="./styles/modal-style.css" rel="stylesheet">
+      <script>
+      
+      </script>
+          </head>
+  <body>
+    <head>
+        <!--<div class="maroon">
+          <h1>Welcome to Northeast Louisiana</h1>
+          <h2>Show us where you're from</h2>
+        </div>-->
+    </head>
+    <center>
+        <div id="inputBox">
+            <form class="form-inline">
+            <div class="form-group">
+              <input type="text" id = "address" class="form-control input-lg" placeholder="your address">
+              <button class="btn btn-primary btn-lg" id="submit"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Pin</button>
+            </div>
+            </form>
+        </div>
+    </center>
+
+    <div id="map"></div>
+      <div id="pin-address-display">
+          <h2>Is this your Address?</h2>
+          <h3 id="homeAddress">Pin your home address on the map, or type it in above!</h3>
+          <!-- Button trigger modal -->
+      <button id="myBtn" type="button" class="btn btn-success btn-lg">Yes!</button>
+      </div>
+
+    <button id="zoomIn" class="zoomButton" onclick="zoomIn()">+</button>
+    <button id="zoomOut" class="zoomButton" onclick="zoomOut()">—</button>
+
+    <div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+                    <div id="input-form">
+                    <div class="progress">
+                      <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="step well">Step 1
+                        <div id="first-content">
+                                <div class="form-group">
+                                    <label for="reasonForVisit"><h4>What brought you to Monroe?</h4></label>
+                                        <div id="visit-reason" class="btn-toolbar" data-toggle="buttons">
+                                          <label class="btn btn-primary btn-lg">
+                                            <input type="radio" name="options" id="business" autocomplete="off" checked> Business
+                                          </label>
+                                          <label class="btn btn-primary btn-lg">
+                                            <input type="radio" name="options" id="pleasure" autocomplete="off"> Pleasure
+                                          </label>
+                                          <label class="btn btn-primary btn-lg">
+                                            <input type="radio" name="options" id="convention" autocomplete="off"> Convention
+                                          </label>
+                                          <label class="btn btn-primary btn-lg">
+                                            <input type="radio" name="options" id="other-reason" autocomplete="off"> Other
+                                          </label>                     
+                                        </div>
+                                </div>
+                                <div class="form-group">
+                                        <label for="info-source"><h4>How did you hear about us?</h4></label>
+                                          <div id="info-source" class="btn-toolbar" data-toggle="buttons">
+                                          <label class="btn btn-primary btn-lg active">
+                                            <input type="radio" name="options" id="friend" autocomplete="off" checked> Friends/Family
+                                          </label>
+                                          <label class="btn btn-primary btn-lg">
+                                            <input type="radio" name="options" id="news" autocomplete="off"> News
+                                          </label>
+                                          <label class="btn btn-primary btn-lg">
+                                            <input type="radio" name="options" id="website" autocomplete="off"> Website
+                                          </label>
+                                          <label class="btn btn-primary btn-lg">
+                                            <input type="radio" name="options" id="other-source" autocomplete="off"> Other
+                                          </label>                     
+                                        </div>
+                                </div>
+                                <div class="form-group">
+                                        <label for="hotelStay"><h4>Are you staying in a Monroe/West Monroe hotel?</h4></label>
+                                        <div id="hotelStay" class="btn-toolbar" data-toggle="buttons">
+                                          <label class="btn btn-lg btn-primary active">
+                                            <input type="radio" name="options" id="yes" autocomplete="off" checked> Yes
+                                          </label>
+                                          <label class="btn btn-primary btn-lg">
+                                            <input type="radio" name="options" id="no" autocomplete="off"> No
+                                          </label>                     
+                                        </div>
+                                </div>
+                        </div>
+                    </div>
+
+                        <div class="step well">Step 2
+                                <div id="second-content">
+                                    <h4>How many people are in your party?</h4>
+                                    <div class="input-group col-md-4">
+                                        <span class="input-group-btn"><button class="btn btn-default value-control" data-action="minus" data-target="font-size"><span class="glyphicon glyphicon-minus"></span></button></span>
+                                        <input type="text" value="1" class="form-control" id="number">
+                                        <span class="input-group-btn"><button class="btn btn-default value-control" data-action="plus" data-target="font-size"><span class="glyphicon glyphicon-plus"></span></button></span>
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="destination"><h4>Where are you headed?</h4></label>
+                                      <input type="text" class="form-control" id="destination">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email"><h4>Please tell us your email address:</h4></label>
+                                       <input type="email" pattern="[^ @]*@[^ @]*" class="form-control" id="email">
+                                    </div>
+                                </div>
+                        </div>
+                     <div class="step well">Step 3
+                                <center><H1>Thanks for the information!!</H1>
+                                <img class="image-last" src="assets/images/visitors-bureau-logo.jpeg"><img class="image-last" src="assets/images/ULM-logo.jpg"></center>
+                         </div>
+                    <button id="back-button"class="action back btn btn-info btn-lg">Back</button>
+                    <button id="next-button" class="action next btn btn-info btn-lg">Next</button>
+                    <button id="done-button" class="action submit btn btn-success btn-lg">Done!</button>
+                    <button id="close-button" class="action cancel btn btn-danger btn-lg">Cancel</button>
+                    </div>
+                </div>
+            </div>
+
+    <script>window.$ = window.jQuery = require('jquery');</script>
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="scripts/jquery-3.2.1.js" type="text/javascript"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script src = "./main.js"></script>
+    <script src = "./scripts/form-action.js"></script>
+    <script src= "scripts/modal-scripts.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBC4tSgxnpte2EB-N_VykFhK2b7-LcaHTE&libraries=places&callback=initMap"
+    async defer></script>
+  </body>
+</html>
