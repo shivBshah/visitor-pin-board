@@ -1,0 +1,75 @@
+#settings .card {
+    /*box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);*/
+    transition: 0.3s;
+    width: 900px;
+    height: 200px;
+    background-color: white;
+    box-shadow: 0px 2px 8px -2px rgba(0,0,0,0.75);
+}
+
+.card:hover {
+    /*box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);*/
+}
+
+#settings .card-container {
+    padding: 2px 16px;
+    padding-top: 25px;
+    padding-left: 55px;
+}
+#settings .card-container input[type='checkbox']{
+  padding: 0px;
+  width:15px;
+  height:15px;
+  margin:0px;
+}
+
+#settings .card-container input[type='checkbox'] ~ *{
+  color:#767676;
+}
+
+#settings .card-container input[type='text']{
+    padding: 4px;
+    margin: 5px;
+    border: 1px solid gray;
+    font-size: 14px;
+    text-align: center;
+    width:100px;
+}
+
+#settings .card-container label{
+  font-weight: normal;
+  text-decoration: none;
+  font-size: 14px;
+}
+#settings #mapSetting .card-container{
+  display:flex;
+}
+
+#settings #mapSetting .card-container .buttons{
+  display:flex;
+  flex-direction: column;
+  align-content: space-between;
+  vertical-align: space-around;
+}
+
+.card .card-head{
+  display:block;
+  width: 100%;
+  padding-left: 10px;
+  padding-top:7px !important;
+  padding-bottom: 3px;
+  background-color: #EDEAEA;
+  font-size: 15px;
+}
+
+#settings #saveMapSettings, #settings #resetToDefault{
+  margin-left: 140px;
+}
+#settings #resetToDefault{
+  margin-top: 20px;
+}
+
+#settings .card-container input[type='checkbox']:checked ~ *{
+  color:#5E5E5E;
+  font-weight: bold;
+}

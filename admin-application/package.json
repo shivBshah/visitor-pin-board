@@ -1,0 +1,18 @@
+{
+  "name": "admin-dashboard",
+  "version": "1.0.0",
+  "description": "Application for administrators to manage database",
+  "main": "app.js",
+  "scripts": {
+    "start": "electron app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "shiv shah",
+  "license": "ISC",
+  "dependencies": {
+    "admin-lte": "^2.3.11",
+    "electron": "^1.6.2",
+    "msexcel-builder": "0.0.2",
+    "mysql": "^2.13.0"
+  }
+}
