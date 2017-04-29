@@ -5,6 +5,7 @@ let conn = (function() {
     let db = new DBConnection();
     return db.connect();
 })();
+loadGraphs();
 
 let tabs = document.getElementsByTagName("li");
 const tabPages = ['dashboard', 'database', 'constant-contact', 'analytics', 'settings'];
@@ -129,6 +130,34 @@ function loadContents(contentPage){
       showDialog(exportEmailLists, contentPage);
     };
   }
+  else if(id=="dashboard"){
+    loadGraphs();
+  }
+}
+
+function loadGraphs() {
+  conn.query('SELECT home_state, SUM(number) as num FROM visitors.visitors GROUP BY home_state ORDER BY num DESC LIMIT 5', (err,results,fields)=>{
+      if (err) throw err;
+      let states = [];
+      let number = [];
+      for (let result of results){
+        states.push(result.home_state);
+        number.push(result.num);
+      }
+      createBarGraph(states,number);
+  });
+  let year = 2016;
+  let months = ['January','February','March','April','May','June','July','August','September', 'October', 'November','December'];
+  conn.query(`SELECT MONTH(date_visited) AS m, SUM(number) num FROM visitors.visitors WHERE YEAR(date_visited) = "${year}" GROUP BY m ORDER BY m ASC`, (err,results,fields)=>{
+      if (err) throw err;
+      let monthsLabels = [];
+      let number = [];
+      for (let result of results){
+        monthsLabels.push(months[result.m-1]);
+        number.push(result.num);
+      }
+      createLineGraph(monthsLabels, number);
+  });
 }
 
 /*-------------------------------------------------------------------------
@@ -378,6 +407,64 @@ function buildRestQuery(form){
     restQuery += `and hotel_stay = "${hotelStay}"`;
   }
   return restQuery;
+}
+
+
+function createBarGraph(graphLabels, graphData){
+    var ctx = document.getElementById("firstChart");
+    var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: graphLabels,
+        datasets: [{
+              animation: {
+                duration: 10000
+            },
+            label: 'Number of Visitors from top 5 states',
+            data: graphData,
+            backgroundColor: '#0D8FB1',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+  });
+}
+
+function createLineGraph(graphLabels, graphData){
+    var ctx = document.getElementById("secondChart");
+    var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: graphLabels,
+        datasets: [{
+              animation: {
+                duration: 10000
+            },
+            label: 'Number of Visitors from each month for year 2016',
+            data: graphData,
+            backgroundColor: 'transparent',
+            borderColor: '#136988',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+  });
 }
 
 function showDialog(callback,contentPage){

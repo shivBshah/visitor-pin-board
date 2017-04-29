@@ -110,3 +110,7 @@ body{
   margin-left: 20px;
   width:600px;
 }
+
+#container {
+  float:left;
+}

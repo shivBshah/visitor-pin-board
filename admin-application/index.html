@@ -29,7 +29,15 @@
         </div>
 
         <div  id="dashboard" class='content'>
-          <h1>Main Dashboard Page Main Dashboard Page Main Dashboard Page Main Dashboard Page </h1>
+          <h1>Overview</h1>
+          <!-- <div id="chartcontainer">This is just a replacement in case Javascript is not available or used for SEO purposes</div> -->
+          <div id="container" style="width: 50%;">
+              <canvas id="firstChart"></canvas>
+          </div>
+          <div id="container" style="width: 50%;">
+              <canvas id="secondChart"></canvas>
+          </div>
+          <!-- <canvas id="myChart" width="200" height="200"></canvas> -->
         </div>
         <div  id="database" class='content'>
             <div class="panel panel-default">
@@ -393,6 +401,8 @@
           </div>
        </div>
     </div>
+    <script src="./scripts/Chart.bundle.min.js"></script>
+    <script src="./scripts/jscharts.js"></script>
     <script src = "jquery-3.2.1.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
     <script src="./bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
     <script src="./index.js"></script>
@@ -400,8 +410,12 @@
     <!-- <script src="./scripts/data-table.js"></script> -->
     <script src="./data-tables/js/jquery.dataTables.min.js"></script>
     <script src="./data-tables/js/dataTables.bootstrap.min.js"></script>
-    <script>
-      // $('#visitorTable').DataTable();
+    <script type="text/javascript">
+        // var myData = new Array([10, 20], [15, 10], [20, 30], [25, 10], [30, 5]);
+        // var myChart = new JSChart('chartcontainer', 'barchart');
+        // myChart.setDataArray(myData);
+        // myChart.draw();
+
     </script>
   </body>
 </html>
