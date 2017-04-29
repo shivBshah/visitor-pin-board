@@ -126,7 +126,7 @@ function loadContents(contentPage){
     //add listener to export emails upon clicking the button
     let exportContactButton = contentPage.querySelector("#export-constant-contact");
     exportContactButton.onclick = function(){
-      exportEmailLists(contentPage);
+      showDialog(exportEmailLists, contentPage);
     };
   }
 }
@@ -207,17 +207,20 @@ function displayPendingExport(contentPage, results){
   let dateFrom = "";
   let dateTo = formatDate(new Date());
   let info =  contentPage.querySelector("#constant-contact p");
+  console.log((new Date()).toISOString().substring(0, 10));
   if (results.length == 0)
   {
     conn.query("SELECT date_visited FROM visitors", (err,rows,fields)=>{
       if (rows.length != 0){
          dateFrom = formatDate(new Date(rows[0].date_visited));
-         if (dateFrom != dateTo){
+         if (dateFrom <= dateTo){
            info.innerHTML = "Exports pending for date range: <b>" + dateFrom + " to " + dateTo+"</b>";
            contentPage.querySelector("#dateFrom-con").value = rows[0].date_visited.toISOString().substring(0, 10);;
            contentPage.querySelector("#dateTo-con").value = (new Date()).toISOString().substring(0, 10);
          }
          else {
+           contentPage.querySelector("#dateFrom-con").value = '';
+           contentPage.querySelector("#dateTo-con").value = '';
            info.innerHTML = "<b>No exports pending for now</b>";
          }
       }
@@ -225,13 +228,16 @@ function displayPendingExport(contentPage, results){
   }
  else  {
    dateFrom = formatDate(new Date(results[0].date_to));
-   if (dateFrom != dateTo){
+   if (dateFrom <= dateTo){
      contentPage.querySelector("#dateFrom-con").value = results[0].date_to.toISOString().substring(0, 10);
      contentPage.querySelector("#dateTo-con").value = (new Date()).toISOString().substring(0, 10);
      info.innerHTML = "Exports pending for date range: <b>" + dateFrom + " to " + dateTo + "</b>";
    }
-   else
+   else{
+     contentPage.querySelector("#dateFrom-con").value = '';
+     contentPage.querySelector("#dateTo-con").value = '';
      info.innerHTML = "<b>No exports pending for now</b>";
+   }
  }
 }
 
@@ -244,24 +250,27 @@ function formatDate(date){
 }
 
 //function to export email list for constant contact
-function exportEmailLists(contentPage){
-    let dateFrom = contentPage.querySelector("#dateFrom-con").value;
-    let dateTo = contentPage.querySelector("#dateTo-con").value;
-    if (dateFrom && dateTo){
-      conn.query(`SELECT email FROM visitors WHERE date_visited BETWEEN DATE_FORMAT("${dateFrom}", '%y-%m-%d') AND DATE_FORMAT("${dateTo}", '%y-%m-%d')`, (err,results, fields)=>{
-        let emails = [];
-        let count = 0;
-        for (let email of results){
-          if (email){
-            emails.push(email);
-            count++;
+function exportEmailLists(contentPage, fileName, filePath){
+      console.log("here");
+      let dateFrom = contentPage.querySelector("#dateFrom-con").value;
+      let dateTo = contentPage.querySelector("#dateTo-con").value;
+      if (dateFrom && dateTo){
+        conn.query(`SELECT email FROM visitors WHERE date_visited BETWEEN DATE_FORMAT("${dateFrom}", '%y-%m-%d') AND DATE_FORMAT("${dateTo}", '%y-%m-%d')`, (err,results, fields)=>{
+          let emails = [["S.N.", "Emails"]];
+          let count = 0;
+          for (let r of results){
+            if (r.email){
+              count++;
+              emails.push([count, r.email]);
+            }
           }
-        }
-        conn.query("INSERT INTO constantcontact(date_from, date_to, number) VALUES(?,?,?)", [dateFrom,dateTo,count], (err,results,fields)=>{
-          if (err) throw err;
+          writeNowToExcel(fileName, filePath, emails);
+          conn.query("INSERT INTO constantcontact(date_from, date_to, number) VALUES(?,?,?)", [dateFrom,dateTo,count], (err,results,fields)=>{
+            if (err) throw err;
+            loadPreviousExports(contentPage);
+          });
         });
-      });
-    }
+      }
 }
 // function listenCheckboxes(databasePage){
 //   let table = databasePage.querySelector("#visitorTable");
@@ -369,4 +378,21 @@ function buildRestQuery(form){
     restQuery += `and hotel_stay = "${hotelStay}"`;
   }
   return restQuery;
+}
+
+function showDialog(callback,contentPage){
+  const remote = require('electron').remote;
+  const dialog = remote.dialog;
+  dialog.showSaveDialog({
+     title: "Export as",
+     filters: [{name: 'Excel(.xlsx)', extensions: ['xlsx']}],
+     nameFieldLabel: "sample"
+   }, function (file) {
+    if (file === undefined) return;
+    console.log("fileRead");
+    let filePieces = file.split("\\");
+    let fileName = filePieces[filePieces.length-1];
+    let filePath = filePieces.splice(0,filePieces.length-1).join("\\");
+    callback(contentPage, fileName, filePath);
+  });
 }

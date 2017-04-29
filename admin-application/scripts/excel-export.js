@@ -82,8 +82,52 @@ function writeToExcel(filePath, fileName){
   //save the Excel file
   workbook.save(function(ok){
     //alert("Export complete")
-    dialog.showMessageBox({ message: "The file has been saved! :-)",
+    dialog.showMessageBox({ message: "The file has been saved",
     buttons: ["OK"] });
   });
+}
 
+function writeNowToExcel(fileName, filePath, values){
+  let workbook = excelbuilder.createWorkbook(filePath, fileName) //create new Excel workbook
+  console.log(values[0].length);
+  let rowLength = values.length;
+  let columnLength = values[0].length;
+  let sheet = workbook.createSheet('Visitors', columnLength , rowLength); //create spreadsheet in workbook
+
+  //loop through HTML table and populate Excel cells with the data
+  for(i = 0 ; i < rowLength; i++)
+  {
+    for(j = 0; j <  columnLength; j++)
+    {
+      sheet.set(j+1, i+1, values[i][j]);
+    }
+  }
+
+  //format header
+  for (j = 0; j < columnLength; j++)
+  {
+      sheet.font(j+1, 1, {sz:'12', bold:'true'});
+  }
+
+  //set column width
+  sheet.width(1, 11);
+  sheet.width(2, 11);
+  sheet.width(3, 25);
+  sheet.width(4, 11);
+  sheet.width(5, 12);
+  sheet.width(6, 9);
+  sheet.width(7, 16);
+  sheet.width(8, 17);
+  sheet.width(9, 14);
+  sheet.width(10,10);
+  sheet.width(11, 18);
+  sheet.width(12, 7);
+  sheet.width(13, 13);
+
+  //save the Excel file
+  workbook.save(function(ok){
+    //alert("Export complete")
+    // dialog.showMessageBox({ message: "Data exporting finished.",
+    // buttons: ["OK"] });
+  });
 }
