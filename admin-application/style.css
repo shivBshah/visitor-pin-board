@@ -97,7 +97,7 @@ body{
   border: none;
 }
 
-#database, #constant-contact, #analytics, #settings {
+#database, #constant-contact, #summary, #settings {
   display:none;
 }
 
@@ -113,4 +113,43 @@ body{
 
 #container {
   float:left;
+}
+#summary p{
+  width:650px;
+  border-bottom: 1px solid gray;
+}
+#dashboard .overview-container{
+  display:flex;
+  justify-content: space-around;
+}
+
+#dashboard #first-two-wells, #dashboard #second-two-wells{
+    flex-basis:47%;
+}
+#dashboard .wells{
+  display: flex;
+  justify-content: space-around;
+
+}
+
+canvas{
+  /*  background-color: white;*/
+  margin-top: 20px;
+  padding:4px;
+  border-radius: 4px;
+  /*margin-right: 5px;*/
+}
+#summary {
+  padding:20px;
+}
+#summary .right{
+  text-align: center;
+}
+#summary .right button{
+  margin-bottom: 4px;
+  width:200px;
+}
+#summary #summaryTable{
+  width:70%;
+
 }

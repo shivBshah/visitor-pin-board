@@ -21,7 +21,7 @@
             <li class="active"><a href="#"><i class="fa fa-th fa-2x" aria-hidden="true"></i><br/>Dashboard</a></li>
             <li><a href="#"><i class="fa fa-database fa-2x" aria-hidden="true"></i><br/>Database</a></li>
             <li><a href="#"><i class="fa fa-bar-chart fa-2x" aria-hidden="true"></i><br/>Constant Contact</a></li>
-            <li><a href="#"><i class="fa fa-line-chart fa-2x" aria-hidden="true"></i><br/>Analytics</a></li>
+            <li><a href="#"><i class="fa fa-line-chart fa-2x" aria-hidden="true"></i><br/>Summary</a></li>
             <li><a href="#"><i class="fa fa-cog fa-2x" aria-hidden="true"></i><br/>Settings</a></li>
             <hr>
             <li><a href="./views/login.html"><i class="fa fa-sign-out fa-2x" aria-hidden="true"></i><br/>Sign Out</a></li>
@@ -29,15 +29,31 @@
         </div>
 
         <div  id="dashboard" class='content'>
-          <h1>Overview</h1>
-          <!-- <div id="chartcontainer">This is just a replacement in case Javascript is not available or used for SEO purposes</div> -->
-          <div id="container" style="width: 50%;">
-              <canvas id="firstChart"></canvas>
-          </div>
-          <div id="container" style="width: 50%;">
-              <canvas id="secondChart"></canvas>
-          </div>
-          <!-- <canvas id="myChart" width="200" height="200"></canvas> -->
+          <h3>Overview of the database</h3>
+          <div class="overview-container">
+            <div id="first-two-wells" class="overview-wells">
+              <div class="wells">
+                <div class="well">
+                  <h4>Total Number of Visitors</h4>
+                </div>
+                <div class="well">
+                  <h4>Total Number of States</h4>
+                </div>
+              </div>
+                <canvas id="firstChart"></canvas>
+            </div>
+             <div id="second-two-wells" class="overview-wells">
+                 <div class="wells">
+                  <div class="well">
+                    <h4>Total Number of Countries</h4>
+                  </div>
+                  <div class="well">
+                    <h4>Total Number of </h4>
+                  </div>
+                </div>
+                <canvas id="secondChart"></canvas>
+             </div>
+         </div>
         </div>
         <div  id="database" class='content'>
             <div class="panel panel-default">
@@ -136,7 +152,7 @@
                           <label for="country">Country</label>
                           <input type="text" class="form-control" id="country" placeholder="All">
                         </div>
-                        <div class="col-sm-3 col-md-3 form-group">
+                        <div class="col-sm-2 col-md-2 form-group">
                           <label for="dateRange">Date Range</label>
                           <div class="input-group">
                             <input type="date" class="form-control" id="dateFrom" placeholder="">
@@ -147,7 +163,7 @@
                     </div>
 
                   <div class="row">
-                      <div class="col-sm-2 col-md-2 form-group">
+                      <div class="col-sm-1 col-md-2 form-group">
                         <label for="travelReason">Travel Reason</label>
                         <select class="form-control" id="travelReason">
                           <option value="All">All</option>
@@ -156,7 +172,7 @@
                           <option value="Other">Other</option>
                         </select>
                       </div>
-                      <div class="col-sm-2 col-md-2 form-group">
+                      <div class="col-sm-1 col-md-2 form-group">
                         <label for="advertisement">Advertisement</label>
                         <select class="form-control" id="advertisement">
                           <option value="All">All</option>
@@ -165,7 +181,6 @@
                           <option value="Other">Other</option>
                         </select>
                       </div>
-
                       <div class="col-sm-1 col-md-1 form-group">
                         <label for="hotelStay">Hotel Stay</label>
                         <select class="form-control" id="hotelStay">
@@ -183,6 +198,7 @@
                 </div>
               </div>
             </div>
+
             <!-- add or edit form modal -->
             <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                <div class="modal-dialog modal-lg" role="document">
@@ -293,12 +309,19 @@
              </div>
 
             <!-- buttons to add, edit and delete record to/from the table -->
-            <div class="col-md-offset-5 btn-group" role="group" aria-label="...">
-              <button type="button" id="add" class="btn btn-default">Add</button>
-              <button type="button" id="edit" class="btn btn-default">Edit</button>
-              <button type="button" id="delete" class="btn btn-default">Delete</button>
+            <div class="row">
+              <div class="col-md-3">
+                <button type="button" id="add" class="btn btn-default">Add</button>
+                <button type="button" id="edit" class="btn btn-default">Edit</button>
+                <button type="button" id="delete" class="btn btn-default">Delete</button>
+              </div>
+              <div class="col-md-4 col-md-offset-2">
+                <button  type="button" id="export" onclick="exportToExcel()" class="btn btn-primary">Export</button>
+              </div>
+            <div class="col-md-3 btn-group" role="group" aria-label="...">
+              <label for="criteria"><p style="font-size:14px;">Found 100 visitors from 60 records</p></label>
             </div>
-
+          </div>
             <!-- Delete confirmation Modal -->
             <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
               <div class="modal-dialog" role="document">
@@ -320,7 +343,8 @@
 
             <!-- table to diplay visitors from the database -->
             <p id="numVisitors"></p>
-            <table id="visitorTable" class='table table-responsive table-bordered table-hover'>
+            <div class='table-responsive'>
+            <table id="visitorTable" class='table table-bordered table-hover'>
               <thead>
                 <tr>
                    <th></th>
@@ -339,15 +363,15 @@
                 </tr>
               </thead>
             </table>
-            <div class="col-md-offset-5">
-              <button  type="button" id="export" onclick="exportToExcel()" class="btn btn-primary">Export</button>
-            </div>
+          </div>
+
         </div>
         <!-- constant contact page -->
         <div id="constant-contact" class='content'>
           <h3>Previous Constant Contact Exports</h3>
           <div class="row">
-            <table id="constant-contact-table" class='table table-responsive table-striped table-bordered col-md-6'>
+            <div class="table-responsive">
+            <table id="constant-contact-table" class='table table-striped table-bordered col-md-6'>
               <thead>
                 <tr>
                     <th>Date Range</th>
@@ -355,6 +379,7 @@
                 </tr>
               </thead>
             </table>
+          </div>
           </div><br/>
           <h3>Pending Constant Contact Export</h3>
           <p>16 emails exports pending for date range mm/dd/yyyy-mm/dd/yyyy</p>
@@ -367,8 +392,79 @@
           <button type="button" class="btn btn-primary" id="export-constant-contact">Export Emails for selected date range</button>
         </div>
         <!-- analytics page -->
-        <div id="analytics" class='content'>
-          <h1>Analytics </h1>
+        <div id="summary" class='content'>
+          <h3>Summary of the database</h3><br/>
+          <div class="row">
+          <div class =" col-md-6 left">
+              <p>Count of visitors by</p>
+              <!-- <p id="sum-error"></p> -->
+              <form class="form" id="summary-form">
+              <div id="first-choices">
+                <div class="row">
+                <div class="col-sm-2 col-md-3 form-group">
+                  <label for="criteria">Criteria</label>
+                  <select class="form-control" id="criteria-sum">
+                    <option value='All'>All</option>
+                    <option value='home_state'>State</option>
+                    <option value="home_city">City</option>
+                    <option value="zip_code">Zip</option>
+                    <option value="country">Country</option>
+                  </select>
+                </div>
+                <div class="col-sm-3 col-md-3 form-group">
+                  <label for="dateRange">Date Range</label>
+                  <div class="input-group">
+                    <input type="date" class="form-control" id="dateFrom-sum" placeholder="">
+                    <div class="input-group-addon">to</div>
+                    <input type="date" class="form-control" id="dateTo-sum" placeholder="">
+                  </div>
+                </div>
+              </div>
+            </div>
+             <p>Other criteria</p>
+
+              <div id="second-choices">
+                <div class= 'row'>
+                    <div class="col-sm-2 col-md-3 form-group">
+                      <label for="travelReason-sum">Travel Reason</label>
+                      <select class="form-control" id="travelReason-sum">
+                        <option value="All">All</option>
+                        <option value="Business">Business</option>
+                        <option value="Pleasure">Pleasure</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
+                    <div class="col-sm-2 col-md-3 form-group">
+                      <label for="advertisement-sum">Advertisement</label>
+                      <select class="form-control" id="advertisement-sum">
+                        <option value="All">All</option>
+                        <option value="Billboards">Billboards</option>
+                        <option value="Signs">Signs</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
+                    <div class="col-sm-2 col-md-2 form-group">
+                      <label for="hotelStay-sum">Hotel Stay</label>
+                      <select class="form-control" id="hotelStay-sum">
+                        <option value="All">All</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                      </select>
+                    </div>
+                  </div>
+                  <br/>
+              <div>
+                <button id="submit-summary" type="button" class="btn btn-primary"><i class="fa fa-filter" aria-hidden="true"></i> Submit</button>
+                <button id="clear-summary" type="button" class="btn btn-primary"><i class="fa fa-eraser" aria-hidden="true"></i> Clear</button>
+              </div>
+            </div>
+          </form>
+          </div>
+          <div class="right col-md-6">
+              <!-- <button id="export-summary" type="button" class="btn btn-primary">Export</button> -->
+              <div id="summaryTable"></div>
+          </div>
+        </div>
         </div>
         <!-- settings page -->
         <div id="settings" class='content'>
@@ -402,20 +498,12 @@
        </div>
     </div>
     <script src="./scripts/Chart.bundle.min.js"></script>
-    <script src="./scripts/jscharts.js"></script>
     <script src = "jquery-3.2.1.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
     <script src="./bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
     <script src="./index.js"></script>
     <script src="./scripts/excel-export.js"></script>
-    <!-- <script src="./scripts/data-table.js"></script> -->
-    <script src="./data-tables/js/jquery.dataTables.min.js"></script>
+    <!-- <script src="./data-tables/js/jquery.dataTables.min.js"></script> -->
     <script src="./data-tables/js/dataTables.bootstrap.min.js"></script>
-    <script type="text/javascript">
-        // var myData = new Array([10, 20], [15, 10], [20, 30], [25, 10], [30, 5]);
-        // var myChart = new JSChart('chartcontainer', 'barchart');
-        // myChart.setDataArray(myData);
-        // myChart.draw();
 
-    </script>
   </body>
 </html>

@@ -69,13 +69,33 @@ table td, table th{
 }
 
 
+.table-responsive{
+  overflow-y:auto;
 
+  /*overflow-x:auto;*/
+  max-height:400px;
+  /*max-width:100%;*/
+
+  display:block;
+}
+.tresponsive{
+  overflow-y:scroll;
+  height:400px;
+
+}
 #visitorTable {
    /*white-space:nowrap;*/
    /*table-layout: fixed;*/
+   /*overflow-y:scroll;
+   height:400px;
+   display:block;*/
    cursor: pointer;
+   width:100%;
+  height:100%;
+
 }
-#visitorTable th{
+#visitorTable thead th{
+   /*position:fixed;*/
     height: 10px;
 }
 
@@ -86,6 +106,11 @@ table td, table th{
 #visitorTable td{
   /*padding:3px;*/
   margin: 0px;
+}
+
+#visitorTable tbody{
+   height: 400px;
+   overflow-y: scroll;
 }
 
 #visitorTable input[type='text']{

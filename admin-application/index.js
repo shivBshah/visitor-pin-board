@@ -5,10 +5,11 @@ let conn = (function() {
     let db = new DBConnection();
     return db.connect();
 })();
+
 loadGraphs();
 
 let tabs = document.getElementsByTagName("li");
-const tabPages = ['dashboard', 'database', 'constant-contact', 'analytics', 'settings'];
+const tabPages = ['dashboard', 'database', 'constant-contact', 'summary', 'settings'];
 let contentPages = document.getElementsByClassName('content');
 for(let i = 0; i < tabs.length-1; i++){
   tabs[i].addEventListener('click', ()=>{
@@ -120,7 +121,8 @@ function loadContents(contentPage){
     contentPage.querySelector("#resetToDefault").onclick = ()=>{
       resetMapSettings(checkboxes);
     };
-  }//define actions for constant-contact page
+  }
+  //define actions for constant-contact page
   else if (id=="constant-contact") {
     loadPreviousExports(contentPage);//load previous exports for constant contact
 
@@ -130,11 +132,110 @@ function loadContents(contentPage){
       showDialog(exportEmailLists, contentPage);
     };
   }
+  //define actions for dashboard page
   else if(id=="dashboard"){
     loadGraphs();
   }
+  else if (id="summary"){
+    contentPage.querySelector("#submit-summary").onclick = ()=>{
+      let criteria = contentPage.querySelector("#criteria-sum").value;
+
+      // if(!criteria){
+      //   contentPage.querySelector("sum-error").innerHTML = "Please select a criteria";
+      // }
+      // else {
+      let query =  buildSummaryQuery(contentPage);
+      createSummaryTable(query);
+      // }
+    };
+
+    contentPage.querySelector("#clear-summary").onclick = ()=>{
+      clearSummaryPage(contentPage);
+    };
+  }
 }
 
+/*-------------------------------------------------------------------------
+          SUMMARY PAGE FUNCTIONS SECTION
+  -------------------------------------------------------------------------*/
+function clearSummaryPage(contentPage){
+  contentPage.querySelector("#summary-form").reset();
+}
+
+function buildSummaryQuery(contentPage){
+  let criteriaBox = contentPage.querySelector("#criteria-sum");
+  let criteria = criteriaBox.value;
+  let columnHeader = criteriaBox.querySelector(`option[value='${criteria}']`).innerHTML;
+
+  let dateFrom = contentPage.querySelector("#dateFrom-sum").value;
+  let dateTo = contentPage.querySelector("#dateTo-sum").value;
+  let travelReason= contentPage.querySelector("#travelReason-sum").value;
+  let advertisement = contentPage.querySelector("#advertisement-sum").value;
+  let hotelStay = contentPage.querySelector("#hotelStay-sum").value;
+  let query = `SELECT SUM(number) AS Count FROM visitors WHERE '1'='1'`;
+  let restQuery = ``;
+  if(dateFrom){
+    if(!dateTo){
+      dateTo = (new Date()).toISOString().substring(0, 10);
+    }
+    restQuery += `AND date_visited BETWEEN "${dateFrom}" AND "${dateTo}"`;
+  }
+
+  if(travelReason != 'All'){
+   restQuery += `AND travel_reason = "${travelReason}"`;
+  }
+
+  if(advertisement != 'All'){
+    restQuery += `AND advertisement = "${advertisement}"`;
+  }
+  if(hotelStay != 'All'){
+    restQuery += `AND hotel_stay = "${hotelStay}"`;
+  }
+  if (criteria != 'All'){
+    query = `SELECT ${criteria} AS "${columnHeader}", SUM(number) AS Count FROM visitors WHERE '1'='1'`+restQuery+` GROUP BY ${criteria} ORDER BY Count DESC`;
+  }
+  else{
+    query += restQuery+` ORDER BY Count DESC`;
+  }
+  return query;
+}
+
+function createSummaryTable(query){
+  let display = "";
+  display += "<div class='table-responsive'><table class='table table-striped'>";
+  conn.query(query, (err,results,fields)=>{
+    if (err) throw err;
+    display += "<thead><tr>";
+
+    for(let field of fields){
+      display += "<th>" + field.name + "</th>";
+    }
+    display += "</tr></thead>";
+    display += "<tbody>"
+    for(let result of results){
+      display += "<tr>";
+      for(let field in result){
+        display += "<td>" + result[field] + "</td>";
+      }
+      display += "</tr>";
+    }
+
+    if (results.length == 0){
+      display += "<tr><td colspan='14' rowspan='3' style=' font-size: 20px;'>No records found</td></tr>";
+    }
+    display += "</tbody>";
+    display += "</table></div>";
+    let table = document.getElementById('summaryTable');
+
+     table.innerHTML = '<button id="export-summary" type="button" class="btn btn-primary">Export</button>'+display;
+
+  });
+
+}
+
+/*-------------------------------------------------------------------------
+          DASHBOARD PAGE FUNCTIONS SECTION
+  -------------------------------------------------------------------------*/
 function loadGraphs() {
   conn.query('SELECT home_state, SUM(number) as num FROM visitors.visitors GROUP BY home_state ORDER BY num DESC LIMIT 5', (err,results,fields)=>{
       if (err) throw err;
@@ -157,6 +258,63 @@ function loadGraphs() {
         number.push(result.num);
       }
       createLineGraph(monthsLabels, number);
+  });
+}
+
+function createBarGraph(graphLabels, graphData){
+    var ctx = document.getElementById("firstChart");
+    var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: graphLabels,
+        datasets: [{
+              animation: {
+                duration: 10000
+            },
+            label: 'Number of Visitors from top 5 states',
+            data: graphData,
+            backgroundColor: '#136988',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+  });
+}
+
+function createLineGraph(graphLabels, graphData){
+    var ctx = document.getElementById("secondChart");
+    var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: graphLabels,
+        datasets: [{
+              animation: {
+                duration: 10000
+            },
+            label: 'Number of Visitors for each month for current year',
+            data: graphData,
+            backgroundColor: 'transparent',
+            borderColor: '#136988',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
   });
 }
 
@@ -242,7 +400,7 @@ function displayPendingExport(contentPage, results){
     conn.query("SELECT date_visited FROM visitors", (err,rows,fields)=>{
       if (rows.length != 0){
          dateFrom = formatDate(new Date(rows[0].date_visited));
-         if (dateFrom <= dateTo){
+         if (dateFrom < dateTo){
            info.innerHTML = "Exports pending for date range: <b>" + dateFrom + " to " + dateTo+"</b>";
            contentPage.querySelector("#dateFrom-con").value = rows[0].date_visited.toISOString().substring(0, 10);;
            contentPage.querySelector("#dateTo-con").value = (new Date()).toISOString().substring(0, 10);
@@ -257,7 +415,7 @@ function displayPendingExport(contentPage, results){
   }
  else  {
    dateFrom = formatDate(new Date(results[0].date_to));
-   if (dateFrom <= dateTo){
+   if (dateFrom < dateTo){
      contentPage.querySelector("#dateFrom-con").value = results[0].date_to.toISOString().substring(0, 10);
      contentPage.querySelector("#dateTo-con").value = (new Date()).toISOString().substring(0, 10);
      info.innerHTML = "Exports pending for date range: <b>" + dateFrom + " to " + dateTo + "</b>";
@@ -409,63 +567,6 @@ function buildRestQuery(form){
   return restQuery;
 }
 
-
-function createBarGraph(graphLabels, graphData){
-    var ctx = document.getElementById("firstChart");
-    var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: graphLabels,
-        datasets: [{
-              animation: {
-                duration: 10000
-            },
-            label: 'Number of Visitors from top 5 states',
-            data: graphData,
-            backgroundColor: '#0D8FB1',
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
-                }
-            }]
-        }
-    }
-  });
-}
-
-function createLineGraph(graphLabels, graphData){
-    var ctx = document.getElementById("secondChart");
-    var myChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: graphLabels,
-        datasets: [{
-              animation: {
-                duration: 10000
-            },
-            label: 'Number of Visitors from each month for year 2016',
-            data: graphData,
-            backgroundColor: 'transparent',
-            borderColor: '#136988',
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
-                }
-            }]
-        }
-    }
-  });
-}
 
 function showDialog(callback,contentPage){
   const remote = require('electron').remote;
