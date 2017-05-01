@@ -82,8 +82,8 @@ function writeToExcel(filePath, fileName){
   //save the Excel file
   workbook.save(function(ok){
     //alert("Export complete")
-    dialog.showMessageBox({ message: "The file has been saved",
-    buttons: ["OK"] });
+    // dialog.showMessageBox({ message: "The file has been saved",
+    // buttons: ["OK"] });
   });
 }
 

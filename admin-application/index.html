@@ -169,6 +169,7 @@
                           <option value="All">All</option>
                           <option value="Business">Business</option>
                           <option value="Pleasure">Pleasure</option>
+                          <option value="Convention">Convention</option>
                           <option value="Other">Other</option>
                         </select>
                       </div>
@@ -211,90 +212,128 @@
                    <div class="modal-body">
                        <form id="vform" class="form-horizontal">
                          <div class="form-group">
-                           <label for="first" class="col-sm-3 control-label">Full Name</label>
-                           <div class="col-sm-3">
-                             <input type="text" class="form-control" id="first" placeholder="First Name">
+                           <div class="form-group">
+                               <label for="email" class="col-sm-3 control-label">Email</label>
+                               <div class="col-sm-5">
+                                 <input type="email" class="form-control" id="email" placeholder="ex: myname@example.com">
+                               </div>
                            </div>
-                           <div class="col-sm-3
-                           <br/>">
-                             <input type="text" class="form-control" id="last" placeholder="Last Name">
+                           <br/>
+                           <label for="address" class="col-sm-3 control-label">Address</label>
+                           <div class="col-sm-2">
+                             <input type="text" class="form-control" id="city" placeholder="City">
+                           </div>
+                           <div class="col-sm-2">
+                      
+                             <select class="form-control" id="state">
+                               <option value="Alabama"> Alabama </option>
+                               <option value="Alaska"> Alaska </option>
+                               <option value="Arizona"> Arizona </option>
+                               <option value="Arkansas"> Arkansas </option>
+                               <option value="California"> California </option>
+                               <option value="Colorado"> Colorado </option>
+                               <option value="Connecticut"> Connecticut </option>
+                               <option value="Delaware"> Delaware </option>
+                               <option value="District of Columbia"> District of Columbia </option>
+                               <option value="Florida"> Florida </option>
+                               <option value="Georgia"> Georgia </option>
+                               <option value="Hawaii"> Hawaii </option>
+                               <option value="Idaho"> Idaho </option>
+                               <option value="Illinois"> Illinois </option>
+                               <option value="Indiana"> Indiana </option>
+                               <option value="Iowa"> Iowa </option>
+                               <option value="Kansas"> Kansas </option>
+                               <option value="Kentucky"> Kentucky </option>
+                               <option value="Louisiana"> Louisiana </option>
+                               <option value="Maine"> Maine </option>
+                               <option value="Maryland"> Maryland </option>
+                               <option value="Massachusetts"> Massachusetts </option>
+                               <option value="Michigan"> Michigan </option>
+                               <option value="Minnesota"> Minnesota </option>
+                               <option value="Mississippi"> Mississippi </option>
+                               <option value="Missouri"> Missouri </option>
+                               <option value="Montana"> Montana </option>
+                               <option value="Nebraska"> Nebraska </option>
+                               <option value="Nevada"> Nevada </option>
+                               <option value="New Hampshire"> New Hampshire </option>
+                               <option value="New Jersey"> New Jersey </option>
+                               <option value="New Mexico"> New Mexico </option>
+                               <option value="New York"> New York </option>
+                               <option value="North Carolina"> North Carolina </option>
+                               <option value="North Dakota"> North Dakota </option>
+                               <option value="Ohio"> Ohio </option>
+                               <option value="Oklahoma"> Oklahoma </option>
+                               <option value="Oregon"> Oregon </option>
+                               <option value="Pennsylvania"> Pennsylvania </option>
+                               <option value="Rhode Island"> Rhode Island </option>
+                               <option value="South Carolina"> South Carolina </option>
+                               <option value="South Dakota"> South Dakota </option>
+                               <option value="Tennessee"> Tennessee </option>
+                               <option value="Texas"> Texas </option>
+                               <option value="Utah"> Utah </option>
+                               <option value="Vermont"> Vermont </option>
+                               <option value="Virginia"> Virginia </option>
+                               <option value="Washington"> Washington </option>
+                               <option value="West Virginia"> West Virginia </option>
+                               <option value="Wisconsin"> Wisconsin </option>
+                               <option value="Wyoming"> Wyoming </option>
+                             </select>
+
+                             <!-- <input type="text" class="form-control" id="homestate" placeholder="State"> -->
+                           </div>
+                           <div class="col-sm-2">
+                             <input type="text" class="form-control" id="homezip" placeholder="Zip">
+                           </div>
+                           <div class="col-sm-2">
+                             <input type="text" class="form-control" id="country" placeholder="Country">
                            </div>
                          </div>
                          <br/>
                          <div class="form-group">
-                           <label for="hometown" class="col-sm-3 control-label">Hometown</label>
-                           <div class="col-sm-3">
-                             <input type="text" class="form-control" id="city" placeholder="City">
-                           </div>
-                           <div class="col-sm-3">
-                             <input type="text" class="form-control" id="state" placeholder="State">
-                           </div>
-                           <div class="col-sm-3">
-                             <input type="text" class="form-control" id="zip" placeholder="Zip Code">
-                           </div>
-                         </div>
-                         <div class="form-group">
                            <label for="dest" class="col-sm-3 control-label">Destination</label>
-                           <div class="col-sm-3">
-                             <input type="text" class="form-control" id="destcity" placeholder="City">
-                           </div>
-                           <div class="col-sm-3">
-                             <input type="text" class="form-control" id="deststate" placeholder="State">
+                           <div class="col-sm-4">
+                             <input type="text" class="form-control" id="dest" placeholder="Destination Address">
                            </div>
                          </div>
                        <br/>
                        <div class="form-group">
-                           <label for="email" class="col-sm-3 control-label">Email</label>
-                           <div class="col-sm-5">
-                             <input type="email" class="form-control" id="email" placeholder="ex: myname@example.com">
-                           </div>
-                       </div>
-                       <br/>
-                       <div class="form-group">
-                           <label for="number" class="col-sm-3 control-label">How many are in your group?</label>
+                           <label for="number" class="col-sm-3 control-label">Number in the group?</label>
                            <div class="col-sm-2">
                              <input type="number" class="form-control" id="number">
                            </div>
                        </div>
                        <br/>
                        <div class="form-group">
-                         <label for="reason" class="col-sm-3 control-label">What brought you to Monroe?</label>
-                         <div class="col-sm-6">
-                           <div class="radio-inline">
-                               <label><input name="group1" type="radio" value="Business"> Business</label>
-                           </div>
-                           <div class="radio-inline">
-                               <label><input name="group1" type="radio" value="Pleasure"> Pleasure</label>
-                           </div>
-                           <div class="radio-inline">
-                               <label><input name="group1" type="radio" value="Convention"> Convention</label>
-                           </div>
-                           <div class="radio-inline">
-                               <label><input name="group1" type="radio" value="Other"> Other:</label>
-                           </div>
+                         <label for="reason" class="col-sm-3 col-md-3 control-label">Reason for visit</label>
+                         <div class="col-sm-4">
+                           <select class="form-control" id="travelReason">
+                             <option value="Business">Business</option>
+                             <option value="Pleasure">Pleasure</option>
+                             <option value="Convention">Convention</option>
+                             <option value="Other">Other</option>
+                           </select>
                          </div>
-                           <div class="col-sm-2">
-                             <input class="form-control" type="text" id="otherReason" placeholder="other">
-                           </div>
-                         </div>
-                         <br/>
 
+                        </div>
+                         <br/>
                          <div class="form-group">
-                             <label for="hear" class="col-sm-3 control-label">How did you hear about us?</label>
-                             <div class="col-sm-5">
-                               <textarea class="form-control" id="hear"></textarea>
-                             </div>
+                             <label for="hear" class="col-sm-3 col-md-3 control-label">Advertisement</label>
+                             <div class="col-sm-4">
+                             <select class="form-control" id="advertisement">
+                               <option value="Billboards">Billboards</option>
+                               <option value="Signs">Signs</option>
+                               <option value="Other">Other</option>
+                             </select>
+                           </div>
                          </div>
                          <br/>
                          <div class="form-group">
-                           <label for="stay" class="col-sm-3 control-label">Are you staying in a Monroe/West Monroe hotel?</label>
+                           <label for="stay" class="col-sm-3 control-label">Staying in hotel? </label>
                              <div class="col-sm-4">
-                             <div class="radio">
-                                 <label><input name="group2" type="radio" value="Yes">Yes</label>
-                             </div>
-                             <div class="radio">
-                                 <label><input name="group2" type="radio" value="No">No</label>
-                             </div>
+                               <select class="form-control" id="hotelStay">
+                                 <option value="Yes">Yes</option>
+                                 <option value="No">No</option>
+                               </select>
                            </div>
                          </div>
                          <br/>
@@ -302,7 +341,7 @@
                    </div>
                    <div class="modal-footer">
                      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                     <button type="button" id="save-button" class="btn btn-primary" data-dismiss="modal">Update</button>
+                     <button type="button" id="save-button" class="btn btn-primary" data-dismiss="modal">Add</button>
                    </div>
                  </div>
                </div>
@@ -335,7 +374,7 @@
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary">Delete</button>
+                    <button type="button" id="deleteRecord" class="btn btn-primary">Delete</button>
                   </div>
                 </div>
               </div>

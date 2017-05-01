@@ -153,3 +153,7 @@ canvas{
   width:70%;
 
 }
+
+#formModal select {
+    padding-top: 3px;
+}

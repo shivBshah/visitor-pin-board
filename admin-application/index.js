@@ -56,54 +56,81 @@ function loadContents(contentPage){
 
     contentPage.querySelector('#add').onclick = ()=>{
       $('#formModal').modal('show');
+
       dataHandler.populateData(conn, baseQuery);
     };
 
     contentPage.querySelector('#edit').onclick = ()=>{
-      $('#formModal').modal('show');
       let checkboxes = table.querySelectorAll("input[type='checkbox']");
       for (let c of checkboxes){
         if (c.checked){
-          let cols = c.parentNode.parentNode.childNodes;
-          for (let i=2; i < cols.length; ++i){
-             cols[i].innerHTML = "<input type='text' id = 'editInput' value = '"+cols[i].textContent+"'/>";
-          }
-          let parentCell = c.parentNode;
-          parentCell.innerHTML = '<a href="#" type="button"><i class="fa fa-check fa-1x" aria-hidden="true"></i></a>' +
-                                    '<a href="#" type="button"><i class="fa fa-times fa-1x" aria-hidden="true"></i></a>';
-          let editButtons = parentCell.querySelectorAll("a[type='button']");
-          editButtons[0].onclick = ()=>{
-            let cols = editButtons[0].parentNode.parentNode.childNodes;
-            let newData = [];
-            console.log(cols.length);
-            for (let i=1; i < cols.length; ++i){
-               newData.push(cols[i].firstChild.value);
-            }
-            dataHandler.updateData(conn, cols[1].textContent, newData);
+             $('#formModal').modal('show');
 
-            parentCell.innerHTML = "<input type='checkbox'/>";
-            dataHandler.populateData(conn, baseQuery);
-          };
-          editButtons[1].onclick = () =>{
-            parentCell.innerHTML = "<input type='checkbox'/>";
-            dataHandler.populateData(conn, baseQuery);
-          };
+             let modal = contentPage.querySelector("#formModal");
+             let inputs = contentPage.querySelector('#vform').elements;
+             console.log(inputs);
+             modal.querySelector("h3").innerHTML = "Edit record";
+             modal.querySelector(".modal-footer #save-button").innerHTML = "Update";
+             let cols = c.parentNode.parentNode.childNodes;
+             //let inputs = contentPage.querySelectorAll("#formModal input");
+             let i = 0;
+             for (i = 3; i < cols.length; ++i){
+               inputs[i].value = cols[i].textContent;
+             }
+
+             contentPage.querySelector("#formModal .modal-footer #save-button").onclick = ()=>{
+             $('#formModal').modal('hide');
+             //dataHandler.upsateData(conn, cols[1].textContent, newData);
+             dataHandler.populateData(conn, baseQuery);
+           };
+           return;
         }
-      }
-    };
+     }
+   };
 
+
+
+          // let parentCell = c.parentNode;
+          // parentCell.innerHTML = '<a href="#" type="button"><i class="fa fa-check fa-1x" aria-hidden="true"></i></a>' +
+          //                           '<a href="#" type="button"><i class="fa fa-times fa-1x" aria-hidden="true"></i></a>';
+          // let editButtons = parentCell.querySelectorAll("a[type='button']");
+          // editButtons[0].onclick = ()=>{
+          //   let cols = editButtons[0].parentNode.parentNode.childNodes;
+          //   let newData = [];
+          //   console.log(cols.length);
+          //   for (let i=1; i < cols.length; ++i){
+          //      newData.push(cols[i].firstChild.value);
+          //   }
+          //   dataHandler.updateData(conn, cols[1].textContent, newData);
+          //
+          //   parentCell.innerHTML = "<input type='checkbox'/>";
+          //   dataHandler.populateData(conn, baseQuery);
+          // };
+          // editButtons[1].onclick = () =>{
+          //   parentCell.innerHTML = "<input type='checkbox'/>";
+          //   dataHandler.populateData(conn, baseQuery);
+          // };
     contentPage.querySelector('#delete').onclick = ()=>{
-      $('#deleteModal').modal('show');
       let checkboxes = table.querySelectorAll("input[type='checkbox']");
-      let rowsToDelete = [];
       for (let c of checkboxes){
         if (c.checked){
-          rowsToDelete.push(c.parentNode.nextSibling.textContent);
+             $('#deleteModal').modal('show');
+              contentPage.querySelector("#deleteModal .modal-footer #deleteRecord").onclick = ()=>{
+              let rowsToDelete = [];
+              for (let c of checkboxes){
+                if (c.checked){
+                  rowsToDelete.push(c.parentNode.nextSibling.textContent);
+                }
+              }
+              $('#deleteModal').modal('hide');
+              dataHandler.deleteData(conn, rowsToDelete);
+              dataHandler.populateData(conn, baseQuery);
+            };
+            return;
         }
       }
-      dataHandler.deleteData(conn, rowsToDelete);
-      dataHandler.populateData(conn, baseQuery);
-    };
+
+     };
 
   }
   //define actions for settings page
