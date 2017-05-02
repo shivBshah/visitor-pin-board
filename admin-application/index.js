@@ -6,7 +6,24 @@ let conn = (function() {
     return db.connect();
 })();
 
+let clicked = false;
 loadGraphs();
+// document.addEventListener('click', ()=>{
+//     console.log(clicked);
+//     clicked = true;
+//     console.log(clicked);
+// });
+//
+// let myVar = setTimeout(function listen(){
+//    if (clicked){
+//      clicked = false;
+//    }
+//    else{
+//      console.log("reload");
+//      clicked = true;
+//    }
+//    setTimeout(listen, 5000);
+// }, 5000);
 
 let tabs = document.getElementsByTagName("li");
 const tabPages = ['dashboard', 'database', 'constant-contact', 'summary', 'settings'];
@@ -56,8 +73,19 @@ function loadContents(contentPage){
 
     contentPage.querySelector('#add').onclick = ()=>{
       $('#formModal').modal('show');
-
-      dataHandler.populateData(conn, baseQuery);
+      let modal = contentPage.querySelector("#formModal");
+      modal.querySelector("h3").innerHTML = "Add new record";
+      modal.querySelector(".modal-footer #save-button").innerHTML = "Add";
+      contentPage.querySelector("#formModal .modal-footer #save-button").onclick = ()=>{
+        let inputs = contentPage.querySelector('#vform').elements;
+        $('#formModal').modal('hide');
+        let data = [];
+        data.push((new Date()).toISOString().substring(0, 10));
+        for (input in inputs)
+           data.push(input.value);
+        dataHandler.addData(conn, data);
+        dataHandler.populateData(conn, baseQuery);
+      };
     };
 
     contentPage.querySelector('#edit').onclick = ()=>{
@@ -68,48 +96,36 @@ function loadContents(contentPage){
 
              let modal = contentPage.querySelector("#formModal");
              let inputs = contentPage.querySelector('#vform').elements;
-             console.log(inputs);
+
              modal.querySelector("h3").innerHTML = "Edit record";
              modal.querySelector(".modal-footer #save-button").innerHTML = "Update";
              let cols = c.parentNode.parentNode.childNodes;
-             //let inputs = contentPage.querySelectorAll("#formModal input");
-             let i = 0;
-             for (i = 3; i < cols.length; ++i){
-               inputs[i].value = cols[i].textContent;
+
+            //  for(let i = 0; i < inputs.length; ++i){
+            //    console.log(cols[i+3]);
+            //  }
+
+             console.log(inputs.length);
+             for (let i =0; i < inputs.length; ++i){
+               console.log(cols[i+3].textContent);
+               inputs[i].value = cols[i+3].textContent;
              }
 
+            //  inputs[0].value;
              contentPage.querySelector("#formModal .modal-footer #save-button").onclick = ()=>{
-             $('#formModal').modal('hide');
-             //dataHandler.upsateData(conn, cols[1].textContent, newData);
-             dataHandler.populateData(conn, baseQuery);
+               $('#formModal').modal('hide');
+               let newData = [];
+               for (input in inputs)
+                  newData.push(input.value);
+               dataHandler.updateData(conn, cols[1].textContent, newData);
+
+               dataHandler.populateData(conn, baseQuery);
            };
            return;
         }
      }
    };
 
-
-
-          // let parentCell = c.parentNode;
-          // parentCell.innerHTML = '<a href="#" type="button"><i class="fa fa-check fa-1x" aria-hidden="true"></i></a>' +
-          //                           '<a href="#" type="button"><i class="fa fa-times fa-1x" aria-hidden="true"></i></a>';
-          // let editButtons = parentCell.querySelectorAll("a[type='button']");
-          // editButtons[0].onclick = ()=>{
-          //   let cols = editButtons[0].parentNode.parentNode.childNodes;
-          //   let newData = [];
-          //   console.log(cols.length);
-          //   for (let i=1; i < cols.length; ++i){
-          //      newData.push(cols[i].firstChild.value);
-          //   }
-          //   dataHandler.updateData(conn, cols[1].textContent, newData);
-          //
-          //   parentCell.innerHTML = "<input type='checkbox'/>";
-          //   dataHandler.populateData(conn, baseQuery);
-          // };
-          // editButtons[1].onclick = () =>{
-          //   parentCell.innerHTML = "<input type='checkbox'/>";
-          //   dataHandler.populateData(conn, baseQuery);
-          // };
     contentPage.querySelector('#delete').onclick = ()=>{
       let checkboxes = table.querySelectorAll("input[type='checkbox']");
       for (let c of checkboxes){
@@ -514,6 +530,7 @@ function getMetroArea(city,state){
     return rows[0].metro_area;
   });
 }
+
 /*
   function to create query string for the input values entered in the form
 */
@@ -549,14 +566,12 @@ function createQueryString(form, callback){
         console.log(queryString);
         callback(conn, queryString);
       });
-
     }
   }
   else {
     queryString += buildRestQuery(form);
     callback(conn, queryString);
   }
-
 }
 
 function buildRestQuery(form){

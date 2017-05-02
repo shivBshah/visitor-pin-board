@@ -55,7 +55,12 @@ let dataHandler = {
            }
        });
   },
-
+  addData: function(conn, data){
+    conn.query("INSERT INTO visitors(date_visited, email, home_city, home_state,zip_code,destination,travel_reason,number,advertisement,hotel_stay) VALUES(?,?,?,?,?,?,?,?,?,?)", data, (err,resulst,fields)=>{
+        if(err) throw err;
+        console.log("record added successfully");
+    });
+  },
   deleteData: function(conn, dataToDelete){
     for (data of dataToDelete){
       conn.query(`delete from visitors where visitor_id = '${data}'`, (error, results, fields) => {
@@ -65,7 +70,7 @@ let dataHandler = {
     }
   },
   updateData: function(conn, key, newData){
-    conn.query(`UPDATE visitors SET date_visited=?, email=?, home_city=?, home_state=?, zip_code=?, destination=?, travel_reason=?, number=?, advertisement=?, hotel_stay=? where visitor_id="${key}"`, newData, (err,results,fields)=>{
+    conn.query(`UPDATE visitors SET email=?, home_city=?, home_state=?, zip_code=?, destination=?, travel_reason=?, number=?, advertisement=?, hotel_stay=? where visitor_id="${key}"`, newData, (err,results,fields)=>{
       if (err) throw err;
       console.log('record updated successfully');
     });

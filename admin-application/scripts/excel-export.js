@@ -29,7 +29,7 @@ function exportToExcel()
      filters: [{name: 'Excel(.xlsx)', extensions: ['xlsx']}],
      nameFieldLabel: "sample"
    }, function (file) {
-    if (file === undefined) return alert("You did not save the file.");
+    //if (file === undefined) return alert("You did not save the file.");
     let filePieces = file.split("\\");
     let fileName = filePieces[filePieces.length-1];
     let filePath = filePieces.splice(0,filePieces.length-1).join("\\");
@@ -54,7 +54,7 @@ function writeToExcel(filePath, fileName){
   {
     for(j = 2; j < columnLength; j++)
     {
-      sheet.set(j+1, i+1, tab.rows[i].cells[j].innerHTML);
+      sheet.set(j-1, i+1, tab.rows[i].cells[j].innerHTML);
     }
   }
 
@@ -66,8 +66,8 @@ function writeToExcel(filePath, fileName){
 
   //set column width
   sheet.width(1, 11);
-  sheet.width(2, 11);
-  sheet.width(3, 25);
+  sheet.width(2, 25);
+  sheet.width(3, 16);
   sheet.width(4, 11);
   sheet.width(5, 12);
   sheet.width(6, 9);
@@ -76,8 +76,7 @@ function writeToExcel(filePath, fileName){
   sheet.width(9, 14);
   sheet.width(10,10);
   sheet.width(11, 18);
-  sheet.width(12, 7);
-  sheet.width(13, 13);
+
 
   //save the Excel file
   workbook.save(function(ok){
