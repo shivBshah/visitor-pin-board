@@ -7,6 +7,15 @@ html, body {
   height: 100%;
 /*    background-color: #4E1C1C;*/
 }
+body {
+    overflow-x: hidden;
+}
+
+.box-wrapper {
+    -webkit-transition-duration: 600ms;
+    transition-duration: 600ms;
+}
+
 #map {
 /*  padding-top: 5%;*/
   width: 100%;
@@ -48,6 +57,7 @@ html, body {
         font-family: 'Roboto','sans-serif';
         border-radius: 5px;
         box-shadow: 7px 7px 5px 0px rgba(50, 50, 50, 0.75);
+        display: inline;
 }
 
 
@@ -101,7 +111,28 @@ p{
     height: 200px;
     width: 300px;
 }
+#welcome{
+    position: absolute;
+        left:0;
+        top: 0;
+    font-family: cursive;
+    background-color: #3db2e2;
+    height: 14%;
+    width: 100%;
+    z-index: 5;
+    border-radius: 15%;
+    box-shadow: 7px 7px 5px 0px rgba(50, 50, 50, 0.75);
+}
 
+#welcome h1,h2{
+    font-size: 300%;
+    font-style: oblique;
+        
+}
+.photos{
+    height: 100px;
+    width: 200px;
+}
 /*
 label{
   font-size: 17px;
@@ -134,10 +165,30 @@ label{
     left: 90%;
     padding-bottom:4px;
 }
-
+#show-second{
+    display:none;
+}
 #zoomIn{
     position:absolute;
     top: 70%;
     left: 90%;
 
+}
+.box-wrapper {
+    -webkit-transition-duration: 600ms;
+    transition-duration: 600ms;
+}
+table{
+    border-color: none;
+    width: 95%;
+    
+}
+.photo{
+    width: 400px;
+    height: 300px;
+    margin: 0 auto;
+    padding-bottom: 20px;
+    border: solid 5px;
+    border-bottom-color: #3db2e2;
+    border-radius: 10%
 }

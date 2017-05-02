@@ -6,23 +6,36 @@
     <meta charset="utf-8">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Merienda+One" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Italianno" rel="stylesheet">
     <!--<link href="./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">-->
     <link href="./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="main-view-style.css"/>
-    <link href="./styles/modal-style.css" rel="stylesheet">
-      <script>
+    <link rel="stylesheet" href="scripts/jquery-ui-1.12.1/jquery-ui.min.css">
       
-      </script>
+
+    <link href="./styles/modal-style.css" rel="stylesheet">
+      <style>
+      body {
+          overflow-x: hidden;
+          }
+
+      .box-wrapper {
+    -webkit-transition-duration: 1500ms;
+    transition-duration: 600ms;
+}
+
+.box-wrapper.loading {
+    transform: translate(-100%);
+    -webkit-transform: translate(-6000%);    
+}
+      </style>
           </head>
   <body>
     <head>
-        <!--<div class="maroon">
-          <h1>Welcome to Northeast Louisiana</h1>
-          <h2>Show us where you're from</h2>
-        </div>-->
+
     </head>
     <center>
-        <div id="inputBox">
+        <div class="box-wrapper loading" id="inputBox">
             <form class="form-inline">
             <div class="form-group">
               <input type="text" id = "address" class="form-control input-lg" placeholder="your address">
@@ -31,20 +44,31 @@
             </form>
         </div>
     </center>
-
+      
     <div id="map"></div>
-      <div id="pin-address-display">
-          <h2>Is this your Address?</h2>
-          <h3 id="homeAddress">Pin your home address on the map, or type it in above!</h3>
-          <!-- Button trigger modal -->
-      <button id="myBtn" type="button" class="btn btn-success btn-lg">Yes!</button>
+      
+      <div id="welcome">
+        <h1>Hey y'all! Welcome to Monroe</h1>
+        <h2>Click on the map to start!</h2>
+      </div>
+      
+      <div id="pin-address-display" class="box-wrapper loading">
+            <div id="show-first">
+                <h1>Type in your address above, or touch the map to show us!</h1>
+            </div>
+            <div id ="show-second">
+                  <h2>Is this your Address?</h2>
+                  <h3 id="homeAddress"></h3>
+                  <!-- Button trigger modal -->
+                    <button id="myBtn" type="button" class="btn btn-success btn-lg">Yes!</button>
+            </div>
       </div>
 
-    <button id="zoomIn" class="zoomButton" onclick="zoomIn()">+</button>
-    <button id="zoomOut" class="zoomButton" onclick="zoomOut()">—</button>
+    <button id="zoomIn" class="zoomButton box-wrapper loading" onclick="zoomIn()">+</button>
+    <button id="zoomOut" class="zoomButton box-wrapper loading" onclick="zoomOut()">−</button>
 
     <div id="myModal" class="modal">
-    <div class="modal-content">
+    <div id="form" class="modal-content">
         <span class="close">&times;</span>
                     <div id="input-form">
                     <div class="progress">
@@ -103,14 +127,14 @@
                         <div class="step well">Step 2
                                 <div id="second-content">
                                     <h4>How many people are in your party?</h4>
-                                    <div class="input-group col-md-4">
+                                    <div class="center input-group col-md-4">
                                         <span class="input-group-btn"><button class="btn btn-default value-control" data-action="minus" data-target="font-size"><span class="glyphicon glyphicon-minus"></span></button></span>
                                         <input type="text" value="1" class="form-control" id="number">
                                         <span class="input-group-btn"><button class="btn btn-default value-control" data-action="plus" data-target="font-size"><span class="glyphicon glyphicon-plus"></span></button></span>
                                     </div>
                                     <div class="form-group">
                                       <label for="destination"><h4>Where are you headed?</h4></label>
-                                      <input type="text" class="form-control" id="destination">
+                                      <input type="text" class=" center form-control" id="destination">
                                     </div>
                                     <div class="form-group">
                                         <label for="email"><h4>Please tell us your email address:</h4></label>
@@ -118,10 +142,7 @@
                                     </div>
                                 </div>
                         </div>
-                     <div class="step well">Step 3
-                                <center><H1>Thanks for the information!!</H1>
-                                <img class="image-last" src="assets/images/visitors-bureau-logo.jpeg"><img class="image-last" src="assets/images/ULM-logo.jpg"></center>
-                         </div>
+
                     <button id="back-button"class="action back btn btn-info btn-lg">Back</button>
                     <button id="next-button" class="action next btn btn-info btn-lg">Next</button>
                     <button id="done-button" class="action submit btn btn-success btn-lg">Done!</button>
@@ -129,6 +150,29 @@
                     </div>
                 </div>
             </div>
+      
+      <div id="lastModal" class="modal">
+        <div class="modal-content-big">
+            <H1>Thanks for the info!</H1>
+            <h2> Learn more about Monroe:</h2>
+            <table>
+                  <tr>
+                    <td align="center"><img class="photo" src="assets/images/CVB_Pics/antique%20alley.jpg"></td>
+                    <td align="center"><img class="photo" src="assets/images/CVB_Pics/beidenharn.jpg"></td>
+                  </tr>
+                  <tr>
+                      <td align="center"><h3>The Antique Alley</h3></td>
+                      <td align="center"><h3>Beidenharn Museum</h3></td>
+                </tr>
+                  <tr>
+                    <td align="center"><img class="photo" src="assets/images/CVB_Pics/black-bayou.jpg"></td>
+                    <td align="center"><img class="photo" src="assets/images/CVB_Pics/monroe-zoo.jpg"></td>
+                  </tr>
+                <td align="center"><h3>Black Bayou Wildlife museum</h3></td>
+                <td align="center"><h3>Louisiana Purchase Zoo</h3></td>
+            </table>
+        </div>
+      </div>
 
     <script>window.$ = window.jQuery = require('jquery');</script>
     <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -137,7 +181,9 @@
     <script src = "./main.js"></script>
     <script src = "./scripts/form-action.js"></script>
     <script src= "scripts/modal-scripts.js"></script>
+    <script src="scripts/jquery-ui-1.12.1/jquery-ui.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBC4tSgxnpte2EB-N_VykFhK2b7-LcaHTE&libraries=places&callback=initMap"
     async defer></script>
+
   </body>
 </html>

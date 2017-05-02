@@ -4,7 +4,7 @@ let mysql  = require('mysql');
 class DBConnection {
     constructor() {
       this._connection = mysql.createConnection({
-        host     : 'localhost',
+        host     : 'DESKTOP-ADT7E5D',
         user     : 'root',
         password : 'root',
         database : 'visitors'

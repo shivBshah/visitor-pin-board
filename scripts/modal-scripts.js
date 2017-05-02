@@ -7,23 +7,10 @@ window.onload = function(){
     // Get the button that opens the modal
     let btn = document.querySelector("#myBtn");
 
-    // Get the <span> element that closes the modal
-    let span = document.querySelector(".close");
-
-    var close = document.getElementById('close-button');
-        close.onclick = function () {
-            document.getElementById("myModal").style.display = "none";
-        };
-
     // When the user clicks on the button, open the modal 
     btn.addEventListener('click', ()=>{
         modal.style.display = "block";
     });
-
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
-        modal.style.display = "none";
-    }
 };
 
     $(document).ready(function(){
@@ -58,7 +45,7 @@ window.onload = function(){
 			btnnext.trigger('click');
 		}
 		hideButtons(current);
-	})			
+	})
 });
  
 // Change progress bar action
@@ -78,7 +65,6 @@ hideButtons = function(current){
  
 	if(current < limit) btnnext.show(); 	if(current > 1) btnback.show();
 	if (current == limit) { btnnext.hide(); btnsubmit.show();}
-    btnclose.show();
 }
 
 $(document).on('click','.value-control',function(){

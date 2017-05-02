@@ -1,4 +1,3 @@
-
             body{
                 position: relative;
             }
@@ -26,6 +25,19 @@
             left: 30%;
             top: 10%;
         }
+        
+        .modal-content-big {
+                background-color: #fefefe;
+                padding: 20px;
+                border: 1px solid #888;
+                width: 80%; /* Could be more or less, depending on screen size */
+                height: 80%;
+                position: fixed; /* Stay in place */
+                left: 10%;
+                top: 10%;
+                border-radius: 5px;
+                box-shadow: 7px 7px 5px 0px rgba(50, 50, 50, 0.75);
+        }
 
         /* The Close Button */
         .close {
@@ -34,9 +46,9 @@
             font-size: 28px;
             font-weight: bold;
         }
-.people-in-party. email-address, destination{
-    width: 40%;
-}
+        .people-in-party. email-address, destination{
+            width: 40%;
+        }
 
         .close:hover,
         .close:focus {
@@ -47,6 +59,16 @@
             .btn-danger{
                 float: right
             }
+        .submit{
+            float: right;
+        }
+.back{
+    float: right;
+}
+.next{
+    float: right;
+    
+}
 
-        
+
 

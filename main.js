@@ -17,6 +17,8 @@ let marker;
 let geocodeResults;
 let geocoder;
 let autocomplete;
+let x = true;
+
 
 //create database connection
 let conn = (function() {
@@ -51,14 +53,29 @@ let visitor_num = 0;
 
 function initMap() {
    //read initial map style data from file
+       
     let styledata = fs.readFileSync('google-maps-style.json');
 
     //create map with that style
     createMap(JSON.parse(styledata));
 
     google.maps.event.addListener(map, 'click', function( event ){
+        if(x==true)
+        { 
+            $("#welcome").slideUp();
+            $('.box-wrapper').each(function(index, element) {
+
+            setTimeout(function(){
+                element.classList.remove('loading');
+            }, index * 500);
+        });
+            x=false;
+        }
+        else
+        {
         let latlng = new google.maps.LatLng(event.latLng.lat(), event.latLng.lng());
         reverseGeocode(geocoder, map, latlng);
+        }
     });
 
     document.getElementById('submit').addEventListener('click', (e) => {
@@ -122,7 +139,8 @@ function geocodeAddress(geocoder, resultsMap) {
       if(resultsMap.getZoom() < 7)
           resultsMap.setZoom(7);
       geocodeResults = results;
-      
+      document.getElementById("show-first").style.display = "none";
+      document.getElementById("show-second").style.display = "block";
       document.getElementById("homeAddress").innerHTML = getDisplayAddress().join(",");
       marker.setPosition(results[0].geometry.location);
     } else {
@@ -146,6 +164,8 @@ function reverseGeocode (geocode, resultsMap, latlng){
     geocoder.geocode({'latLng': latlng}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
           geocodeResults = results;
+           document.getElementById("show-first").style.display = "none";
+           document.getElementById("show-second").style.display = "block";
            document.getElementById("homeAddress").innerHTML = getDisplayAddress().join(",");
           marker.setPosition(latlng);
 
@@ -273,7 +293,9 @@ function addListeners(){
   document.getElementById('done-button').addEventListener('click', ()=>{
       let modal = document.querySelector('#myModal');
       modal.style.display = "none";
-      storeFinalInfo();
+      let bigmodal = document.querySelector('#lastModal');
+      bigmodal.style.display="block";
+      setTimeout(function(){ storeFinalInfo(); }, 10000);      
       
   });
 
@@ -314,3 +336,5 @@ function zoomIn()
 }
 
 module.exports = saveMarker;
+    
+
