@@ -57,7 +57,7 @@ function loadContents(contentPage){
   //define actions for database page
   if (id == 'database'){
     let table = contentPage.querySelector("#visitorTable");
-    let baseQuery = "select * from visitors order by DATE_FORMAT(date_visited, '%Y%m%d') DESC";
+    let baseQuery = "";
     dataHandler.populateData(conn, baseQuery);
 
     // listenCheckboxes(databasePage);
@@ -73,17 +73,32 @@ function loadContents(contentPage){
 
     contentPage.querySelector('#add').onclick = ()=>{
       $('#formModal').modal('show');
+      let inputs = contentPage.querySelector('#vform').elements;
+      for (input of inputs){
+        input.value = "";
+      }
       let modal = contentPage.querySelector("#formModal");
       modal.querySelector("h3").innerHTML = "Add new record";
       modal.querySelector(".modal-footer #save-button").innerHTML = "Add";
       contentPage.querySelector("#formModal .modal-footer #save-button").onclick = ()=>{
-        let inputs = contentPage.querySelector('#vform').elements;
+
         $('#formModal').modal('hide');
         let data = [];
         data.push((new Date()).toISOString().substring(0, 10));
-        for (input in inputs)
-           data.push(input.value);
+        for (input of inputs)
+        {
+          if(input.type == 'number'){
+              if(input.value == ''){
+                data.push('1');
+              }
+          }else {
+            if(input.value != 'Select')
+              data.push(input.value);
+          }
+        }
+
         dataHandler.addData(conn, data);
+        dataHandler.addMarker(conn, data[0]); //add new marker with just the date
         dataHandler.populateData(conn, baseQuery);
       };
     };
@@ -101,22 +116,23 @@ function loadContents(contentPage){
              modal.querySelector(".modal-footer #save-button").innerHTML = "Update";
              let cols = c.parentNode.parentNode.childNodes;
 
-            //  for(let i = 0; i < inputs.length; ++i){
-            //    console.log(cols[i+3]);
-            //  }
-
-             console.log(inputs.length);
              for (let i =0; i < inputs.length; ++i){
-               console.log(cols[i+3].textContent);
                inputs[i].value = cols[i+3].textContent;
              }
 
-            //  inputs[0].value;
              contentPage.querySelector("#formModal .modal-footer #save-button").onclick = ()=>{
                $('#formModal').modal('hide');
                let newData = [];
-               for (input in inputs)
-                  newData.push(input.value);
+               for (input of inputs)
+               {
+                 if(input.type == number){
+                     if(input.value == '')
+                        data.push('1');
+                 }else {
+                   if(input.value != 'Select')
+                     newData.push(input.value);
+                 }
+               }
                dataHandler.updateData(conn, cols[1].textContent, newData);
 
                dataHandler.populateData(conn, baseQuery);
@@ -140,6 +156,7 @@ function loadContents(contentPage){
               }
               $('#deleteModal').modal('hide');
               dataHandler.deleteData(conn, rowsToDelete);
+              dataHandler.deleteMarker(conn, rowsToDelete);
               dataHandler.populateData(conn, baseQuery);
             };
             return;
@@ -539,8 +556,8 @@ function createQueryString(form, callback){
   let cityOnly = form.querySelector("#cityOnly").checked;
   let state = form.querySelector("#state").value;
 
-  let queryString = `select * from visitors where '1' = '1'`;
- console.log(queryString);
+  let queryString = ``;
+
   if (city){
     if(cityOnly)
     {
@@ -563,7 +580,6 @@ function createQueryString(form, callback){
           queryString += `and home_city = "${city}"`;
         }
         queryString += buildRestQuery(form);
-        console.log(queryString);
         callback(conn, queryString);
       });
     }

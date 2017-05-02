@@ -20,7 +20,7 @@
           <ul>
             <li class="active"><a href="#"><i class="fa fa-th fa-2x" aria-hidden="true"></i><br/>Dashboard</a></li>
             <li><a href="#"><i class="fa fa-database fa-2x" aria-hidden="true"></i><br/>Database</a></li>
-            <li><a href="#"><i class="fa fa-bar-chart fa-2x" aria-hidden="true"></i><br/>Constant Contact</a></li>
+            <li><a href="#"><i class="fa fa fa-address-card fa-2x" aria-hidden="true"></i><br/>Constant Contact</a></li>
             <li><a href="#"><i class="fa fa-line-chart fa-2x" aria-hidden="true"></i><br/>Summary</a></li>
             <li><a href="#"><i class="fa fa-cog fa-2x" aria-hidden="true"></i><br/>Settings</a></li>
             <hr>
@@ -178,7 +178,8 @@
                         <select class="form-control" id="advertisement">
                           <option value="All">All</option>
                           <option value="Billboards">Billboards</option>
-                          <option value="Signs">Signs</option>
+                          <option value="Signs">Interstate Signs</option>
+                          <option value="Signs">Website</option>
                           <option value="Other">Other</option>
                         </select>
                       </div>
@@ -225,6 +226,7 @@
                            </div>
                            <div class="col-sm-2">
                              <select class="form-control" id="state">
+                               <option value="Select"> Select </option>
                                <option value="Alabama"> Alabama </option>
                                <option value="Alaska"> Alaska </option>
                                <option value="Arizona"> Arizona </option>
@@ -295,32 +297,36 @@
                            </div>
                          </div>
                        <br/>
-                       <div class="form-group">
-                           <label for="number" class="col-sm-3 control-label">Number in the group?</label>
-                           <div class="col-sm-2">
-                             <input type="number" class="form-control" id="number">
-                           </div>
-                       </div>
-                       <br/>
+
                        <div class="form-group">
                          <label for="reason" class="col-sm-3 col-md-3 control-label">Reason for visit</label>
                          <div class="col-sm-4">
-                           <select class="form-control" id="travelReason">
+                           <select class="form-control" id="travelReason" placeholder="Reason for visit">
+                             <option value="Select" active>Select</option>
                              <option value="Business">Business</option>
                              <option value="Pleasure">Pleasure</option>
                              <option value="Convention">Convention</option>
                              <option value="Other">Other</option>
                            </select>
                          </div>
+                        </div>
 
+                        <br/>
+                        <div class="form-group">
+                            <label for="number" class="col-sm-3 control-label">Number in Group</label>
+                            <div class="col-sm-2">
+                              <input type="number" class="form-control" id="number" placeholder="Number">
+                            </div>
                         </div>
                          <br/>
                          <div class="form-group">
                              <label for="hear" class="col-sm-3 col-md-3 control-label">Advertisement</label>
                              <div class="col-sm-4">
-                             <select class="form-control" id="advertisement">
+                             <select class="form-control" id="advertisement" placeholder="advertisement">
+                               <option value="Select" active>Select</option>
                                <option value="Billboards">Billboards</option>
-                               <option value="Signs">Signs</option>
+                               <option value="Signs">Interstate Signs</option>
+                               <option value="Signs">Website</option>
                                <option value="Other">Other</option>
                              </select>
                            </div>
@@ -329,7 +335,8 @@
                          <div class="form-group">
                            <label for="stay" class="col-sm-3 control-label">Staying in hotel? </label>
                              <div class="col-sm-4">
-                               <select class="form-control" id="hotelStay">
+                               <select class="form-control" id="hotelStay" placeholder="Hotel">
+                                 <option value="Select" active>Select</option>
                                  <option value="Yes">Yes</option>
                                  <option value="No">No</option>
                                </select>
@@ -357,7 +364,7 @@
                 <button  type="button" id="export" onclick="exportToExcel()" class="btn btn-primary">Export</button>
               </div>
             <div class="col-md-3 btn-group" role="group" aria-label="...">
-              <label for="criteria"><p style="font-size:14px;">Found 100 visitors from 60 records</p></label>
+              <label for="criteria"><p style="font-size:14px;" id="recordSummary">Found 100 visitors from 60 records</p></label>
             </div>
           </div>
             <!-- Delete confirmation Modal -->
@@ -420,7 +427,7 @@
           </div>
           </div><br/>
           <h3>Pending Constant Contact Export</h3>
-          <p>16 emails exports pending for date range mm/dd/yyyy-mm/dd/yyyy</p>
+          <p >16 emails exports pending for date range mm/dd/yyyy-mm/dd/yyyy</p>
           <label for="dateRange">Date Range</label>
           <div class="input-group col-md-4 col-sm-4 col-lg-4">
             <input type="date" class="form-control" id="dateFrom-con" placeholder="">
@@ -469,6 +476,7 @@
                         <option value="All">All</option>
                         <option value="Business">Business</option>
                         <option value="Pleasure">Pleasure</option>
+                        <option value="Convention">Convention</option>
                         <option value="Other">Other</option>
                       </select>
                     </div>
@@ -477,7 +485,8 @@
                       <select class="form-control" id="advertisement-sum">
                         <option value="All">All</option>
                         <option value="Billboards">Billboards</option>
-                        <option value="Signs">Signs</option>
+                        <option value="Signs">Interstate Signs</option>
+                        <option value="Signs">Website</option>
                         <option value="Other">Other</option>
                       </select>
                     </div>

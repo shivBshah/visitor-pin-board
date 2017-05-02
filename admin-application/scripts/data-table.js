@@ -1,9 +1,12 @@
 
 let dataHandler = {
   populateData: function(conn,queryString) {
+    let query = `SELECT * FROM VISITORS WHERE '1'='1'` + queryString + ` ORDER BY visitor_id DESC`;
      let display = "<tbody>";
-     conn.query(queryString, function(err, rows, fields){
+      console.log(query);
+     conn.query(query, function(err, rows, fields){
          if (err) throw err;
+         let totalNumber = 0;
          for (let visitor of rows) {
            display += "<tr>";
            display += "<td><input type='checkbox'></td>";
@@ -14,7 +17,7 @@ let dataHandler = {
            display += "<td>" + visitor.home_state + "</td>";
            display += "<td>" + visitor.zip_code + "</td>";
            display += "<td>" + visitor.country + "</td>";
-           display += "<td>" + visitor.destination+ "</td>";
+           display += "<td>" + visitor.destination + "</td>";
            //display += "<td>" + visitor.DestState + "</td>";
            display += "<td>" + visitor.travel_reason + "</td>";
            display += "<td>" + visitor.number + "</td>";
@@ -27,9 +30,12 @@ let dataHandler = {
            display += "<tr> <td colspan='14' rowspan='3' style=' font-size: 20px;'>No records found</td></tr>";
          }
          display += "</tbody>";
-        //  let info = ''+rows.length+' records found.';
-        //  document.getElementById('recordInfo').innerHTML = info;
-        //  document.querySelector('.alert').classList.toggle('alert-info',true);
+
+        let newQuery = `SELECT SUM(number) s FROM visitors WHERE '1'='1' ` + queryString;
+        conn.query(newQuery, (err,results,fields)=>{
+            if (err) throw err;
+            document.getElementById("recordSummary").innerHTML = results[0].s + " vistors from " + rows.length + " records";
+         });
 
          let table = document.getElementById('visitorTable');
 
@@ -50,27 +56,48 @@ let dataHandler = {
                    row.style.color = "black";
                  }
                  row.childNodes[0].firstChild.checked = !row.childNodes[0].firstChild.checked;
-
             });
            }
        });
   },
   addData: function(conn, data){
-    conn.query("INSERT INTO visitors(date_visited, email, home_city, home_state,zip_code,destination,travel_reason,number,advertisement,hotel_stay) VALUES(?,?,?,?,?,?,?,?,?,?)", data, (err,resulst,fields)=>{
-        if(err) throw err;
-        console.log("record added successfully");
+    console.log(data);
+    conn.query("INSERT INTO visitors(date_visited, email, home_city, home_state,zip_code,country, destination,travel_reason,number,advertisement,hotel_stay) VALUES(?,?,?,?,?,?,?,?,?,?, ?)", data, (err,resulst,fields)=>{
+        if(err) {
+          console.log("error adding visitors");
+          //throw err;
+        }else
+          console.log("record added successfully");
+    });
+  },
+  addMarker: function(conn, date){
+    console.log('addMarker:' +  date);
+    conn.query("INSERT INTO markers(timestamp) VALUES(?)", date, (err,results,fields)=>{
+        if(err) {
+          console.log("error adding marker");
+          //throw err;
+        }else
+          console.log("marker added successfully");
     });
   },
   deleteData: function(conn, dataToDelete){
     for (data of dataToDelete){
       conn.query(`delete from visitors where visitor_id = '${data}'`, (error, results, fields) => {
         if (error) throw error;
-        console.log('deleted ' + results.affectedRows + ' rows');
+        console.log('record deleted');
+      });
+    }
+  },
+  deleteMarker: function(conn, dataToDelete){
+    for (data of dataToDelete){
+      conn.query(`delete from markers where marker_id = '${data}'`, (error, results, fields) => {
+        if (error) throw error;
+        console.log('marker deleted');
       });
     }
   },
   updateData: function(conn, key, newData){
-    conn.query(`UPDATE visitors SET email=?, home_city=?, home_state=?, zip_code=?, destination=?, travel_reason=?, number=?, advertisement=?, hotel_stay=? where visitor_id="${key}"`, newData, (err,results,fields)=>{
+    conn.query(`UPDATE visitors SET email=?, home_city=?, home_state=?, zip_code=?, country = ?, destination=?, travel_reason=?, number=?, advertisement=?, hotel_stay=? where visitor_id="${key}"`, newData, (err,results,fields)=>{
       if (err) throw err;
       console.log('record updated successfully');
     });
