@@ -56,6 +56,17 @@ function loadContents(contentPage){
   let id = contentPage.id;
   //define actions for database page
   if (id == 'database'){
+    let panel = contentPage.querySelector("a[role='button']");
+    panel.onclick = ()=>{
+       if(panel.classList[0] != 'expanded')
+         panel.classList.add('expanded');
+       else {
+         contentPage.querySelector("#visitorTable").style.maxHeight = "580px";
+         console.log("panel");
+         panel.classList.remove('expanded');
+       }
+    };
+
     let table = contentPage.querySelector("#visitorTable");
     let baseQuery = "";
     dataHandler.populateData(conn, baseQuery);
@@ -90,15 +101,18 @@ function loadContents(contentPage){
           if(input.type == 'number'){
               if(input.value == ''){
                 data.push('1');
+              }else {
+                data.push(input.value);
               }
-          }else {
+          }
+          else {
             if(input.value != 'Select')
               data.push(input.value);
           }
         }
 
         dataHandler.addData(conn, data);
-        dataHandler.addMarker(conn, data[0]); //add new marker with just the date
+        // dataHandler.addMarker(conn, data[0]); //add new marker with just the date
         dataHandler.populateData(conn, baseQuery);
       };
     };
@@ -332,7 +346,7 @@ function loadGraphs() {
   });
   let year = 2016;
   let months = ['January','February','March','April','May','June','July','August','September', 'October', 'November','December'];
-  conn.query(`SELECT MONTH(date_visited) AS m, SUM(number) num FROM visitors.visitors WHERE YEAR(date_visited) = "${year}" GROUP BY m ORDER BY m ASC`, (err,results,fields)=>{
+  conn.query(`SELECT MONTH(date_visited) AS m, SUM(number) num FROM visitors.visitors WHERE TIMESTAMPDIFF(MONTH, date_visited, CURDATE()) <= 12 GROUP BY m ORDER BY m ASC`, (err,results,fields)=>{
       if (err) throw err;
       let monthsLabels = [];
       let number = [];
@@ -388,7 +402,7 @@ function createLineGraph(graphLabels, graphData){
               animation: {
                 duration: 10000
             },
-            label: 'Number of Visitors for each month for current year',
+            label: 'Number of Visitors for the last 12 months',
             data: graphData,
             backgroundColor: 'transparent',
             borderColor: '#136988',
@@ -602,8 +616,15 @@ function createQueryString(form, callback){
       conn.query(query, (err,rows,fields)=>{
         if (err) throw err;
         if(rows[0] != " " && rows[0] != null){
-          let metro_area = rows[0].metro_area;
-          queryString += `and metro_area = "${metro_area}"`;
+          queryString += `and metro_area IN (`;
+          for (let i = 0; i < rows.length; i++){
+            let metro_area = rows[i].metro_area;
+            queryString += `"${metro_area}"`;
+            if(i < rows.length-1){
+               queryString += `,`;
+            }
+          }
+          queryString += `)`;
           console.log(queryString);
         } else {
           queryString += `and home_city = "${city}"`;

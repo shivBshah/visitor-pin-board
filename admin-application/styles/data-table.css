@@ -75,8 +75,8 @@ table td, table th{
   /*overflow-x:auto;*/
   max-height:400px;
   /*max-width:100%;*/
-
   display:block;
+  transition: height 2s ease-out;
 }
 .tresponsive{
   overflow-y:scroll;

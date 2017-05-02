@@ -62,7 +62,7 @@ let dataHandler = {
   },
   addData: function(conn, data){
     console.log(data);
-    conn.query("INSERT INTO visitors(date_visited, email, home_city, home_state,zip_code,country, destination,travel_reason,number,advertisement,hotel_stay) VALUES(?,?,?,?,?,?,?,?,?,?, ?)", data, (err,resulst,fields)=>{
+    conn.query("INSERT INTO visitors(date_visited, email, home_city, home_state,zip_code,country, destination,travel_reason,number,advertisement,hotel_stay) VALUES(?,?,?,?,?,?,?,?,?,?, ?)", data, (err,results,fields)=>{
         if(err) {
           console.log("error adding visitors");
           //throw err;
