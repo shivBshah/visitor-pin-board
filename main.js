@@ -29,9 +29,9 @@ let conn = (function() {
 //get the number for next visitor
 let visitor_num = 0;
 (function(){
-    conn.query("SELECT COUNT(*) count FROM visitors", (err,results,field)=>{
+    conn.query("SELECT visitor_id FROM visitors ORDER BY visitor_id DESC", (err,results,field)=>{
       if (err) throw err;
-      visitor_num = results[0].count + 1;
+      visitor_num = results[0].visitor_id + 1;
       console.log(results[0]);
       addListeners();
       // return results[0].count + 1;
@@ -64,12 +64,12 @@ function initMap() {
         { 
             $("#welcome").slideUp();
             $('.box-wrapper').each(function(index, element) {
-
             setTimeout(function(){
                 element.classList.remove('loading');
             }, index * 500);
         });
             x=false;
+            setTimeout(function(){ storeFinalInfo(); }, 1200000);
         }
         else
         {
@@ -80,6 +80,7 @@ function initMap() {
 
     document.getElementById('submit').addEventListener('click', (e) => {
       e.preventDefault();
+    
       geocodeAddress(geocoder, map);
     });
 
@@ -196,7 +197,7 @@ function loadMarkers(callback){
       for (let i=0; i<locations.length; i++){
           markers[i]= new google.maps.Marker({
               position: locations[i],
-              icon: "./assets/images/pin/new_pin.png"
+              icon: "./assets/images/pin/new red.png"
           });
       }
       callback(markers);
@@ -222,7 +223,7 @@ function saveMarker() {
       let metro = "";
       if (results[0] != null && results[0] != '')
          metro = results[0].metro_area;
-      let values = [date,'',parsedAddress[0],parsedAddress[1], parsedAddress[2], parsedAddress[3], '','','','','',metro];
+      let values = [date,'',parsedAddress[0],parsedAddress[1], parsedAddress[2], parsedAddress[3], '','','1','','',metro];
       console.log(metro);
       conn.query("INSERT INTO visitors(date_visited, email, home_city, home_state, zip_code, country, destination, travel_reason, number, advertisement, hotel_stay, metro_area) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",values,(error,results,fields)=>{
         if (error) {
@@ -295,13 +296,15 @@ function addListeners(){
       modal.style.display = "none";
       let bigmodal = document.querySelector('#lastModal');
       bigmodal.style.display="block";
-      setTimeout(function(){ storeFinalInfo(); }, 10000);      
+      storeFinalInfo();    
       
   });
 
-   document.getElementById('close-button').addEventListener('click', ()=>{
-      storeFinalInfo()
+
+   document.getElementById('byebye').addEventListener('click', ()=>{
+      setTimeout(reloadWindow(), 1000);
   });
+    
 }
 
 function storeFinalInfo(){
@@ -316,7 +319,7 @@ function storeFinalInfo(){
   conn.query(`UPDATE visitors SET ${fields[0]}=?,${fields[1]}=?, ${fields[2]}=? WHERE visitor_id=${visitor_num}`, values,(err,results,fields)=>{
       if(err) throw err;
       console.log("second contents were saved");
-      setTimeout(reloadWindow(), 1000);
+//     setTimeout(reloadWindow(), 1000);
   });
 }
 

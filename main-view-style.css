@@ -129,10 +129,7 @@ p{
     font-style: oblique;
         
 }
-.photos{
-    height: 100px;
-    width: 200px;
-}
+
 /*
 label{
   font-size: 17px;
@@ -188,7 +185,5 @@ table{
     height: 300px;
     margin: 0 auto;
     padding-bottom: 20px;
-    border: solid 5px;
-    border-bottom-color: #3db2e2;
-    border-radius: 10%
+    border: solid 5px #3db2e2;
 }

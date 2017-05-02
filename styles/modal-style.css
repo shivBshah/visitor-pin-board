@@ -46,10 +46,6 @@
             font-size: 28px;
             font-weight: bold;
         }
-        .people-in-party. email-address, destination{
-            width: 40%;
-        }
-
         .close:hover,
         .close:focus {
             color: black;
@@ -61,14 +57,40 @@
             }
         .submit{
             float: right;
+             margin: 10px;
         }
 .back{
     float: right;
+    margin: 10px;
 }
 .next{
     float: right;
-    
+    margin: 10px;
 }
+#close-button{
+    float: right;
+    margin: 10px;
+}
+#logos img{
+    width: 200px;
+    height: 100px;
+    position: absolute;
+    top: 82%;
+    left: 5%;
+    z-index: 15;
 
+}
+#destination{
+    width: 50%;
+}
+#email{
+    width: 50%;
+}
+#myBtn{
+    font-size: 250%;
+    width: 100px;
+    height: 60px;
+        
+}
 
 

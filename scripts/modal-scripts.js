@@ -7,6 +7,13 @@ window.onload = function(){
     // Get the button that opens the modal
     let btn = document.querySelector("#myBtn");
 
+    let btn2 = document.querySelector("#close-button"); 
+    
+    btn2.addEventListener('click', ()=>{
+      modal.style.display = "none";
+      setTimeout(reloadWindow(), 1000);
+  });
+    
     // When the user clicks on the button, open the modal 
     btn.addEventListener('click', ()=>{
         modal.style.display = "block";
@@ -63,8 +70,10 @@ hideButtons = function(current){
  
 	$(".action").hide();
  
-	if(current < limit) btnnext.show(); 	if(current > 1) btnback.show();
+    
+	if(current < limit) btnclose.show(); btnnext.show(); 	if(current > 1) btnback.show();
 	if (current == limit) { btnnext.hide(); btnsubmit.show();}
+
 }
 
 $(document).on('click','.value-control',function(){
@@ -79,3 +88,4 @@ $(document).on('click','.value-control',function(){
     }
     $('[id="'+target+'"]').val(value)
 })
+

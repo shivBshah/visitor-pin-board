@@ -63,6 +63,11 @@
                     <button id="myBtn" type="button" class="btn btn-success btn-lg">Yes!</button>
             </div>
       </div>
+      
+      <div id="logos">
+<!--    <img src="assets/images/ULM-logo.jpg">-->
+    <img src="assets/images/CVB-logo.png">-->
+      </div>
 
     <button id="zoomIn" class="zoomButton box-wrapper loading" onclick="zoomIn()">+</button>
     <button id="zoomOut" class="zoomButton box-wrapper loading" onclick="zoomOut()">−</button>
@@ -71,10 +76,11 @@
     <div id="form" class="modal-content">
         <span class="close">&times;</span>
                     <div id="input-form">
+                        <h1>WOW! You're the nth visitor from your state!</h1>
                     <div class="progress">
                       <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
-                    <div class="step well">Step 1
+                    <div class="step well">
                         <div id="first-content">
                                 <div class="form-group">
                                     <label for="reasonForVisit"><h4>What brought you to Monroe?</h4></label>
@@ -96,11 +102,11 @@
                                 <div class="form-group">
                                         <label for="info-source"><h4>How did you hear about us?</h4></label>
                                           <div id="info-source" class="btn-toolbar" data-toggle="buttons">
-                                          <label class="btn btn-primary btn-lg active">
-                                            <input type="radio" name="options" id="friend" autocomplete="off" checked> Friends/Family
+                                          <label class="btn btn-primary btn-lg">
+                                            <input type="radio" name="options" id="billboard" autocomplete="off" checked> Billboard
                                           </label>
                                           <label class="btn btn-primary btn-lg">
-                                            <input type="radio" name="options" id="news" autocomplete="off"> News
+                                            <input type="radio" name="options" id="signs" autocomplete="off"> Interstate signs
                                           </label>
                                           <label class="btn btn-primary btn-lg">
                                             <input type="radio" name="options" id="website" autocomplete="off"> Website
@@ -112,19 +118,19 @@
                                 </div>
                                 <div class="form-group">
                                         <label for="hotelStay"><h4>Are you staying in a Monroe/West Monroe hotel?</h4></label>
-                                        <div id="hotelStay" class="btn-toolbar" data-toggle="buttons">
-                                          <label class="btn btn-lg btn-primary active">
-                                            <input type="radio" name="options" id="yes" autocomplete="off" checked> Yes
-                                          </label>
-                                          <label class="btn btn-primary btn-lg">
-                                            <input type="radio" name="options" id="no" autocomplete="off"> No
-                                          </label>                     
-                                        </div>
+                                            <div id="hotelStay" class="btn-toolbar" data-toggle="buttons">
+                                              <label class="btn btn-lg btn-primary">
+                                                <input type="radio" name="options" id="yes" autocomplete="off" checked> Yes
+                                              </label>
+                                              <label class="btn btn-primary btn-lg">
+                                                <input type="radio" name="options" id="no" autocomplete="off"> No
+                                              </label>                     
+                                            </div>
                                 </div>
                         </div>
                     </div>
 
-                        <div class="step well">Step 2
+                        <div class="step well">
                                 <div id="second-content">
                                     <h4>How many people are in your party?</h4>
                                     <div class="center input-group col-md-4">
@@ -132,6 +138,7 @@
                                         <input type="text" value="1" class="form-control" id="number">
                                         <span class="input-group-btn"><button class="btn btn-default value-control" data-action="plus" data-target="font-size"><span class="glyphicon glyphicon-plus"></span></button></span>
                                     </div>
+                                    <br>
                                     <div class="form-group">
                                       <label for="destination"><h4>Where are you headed?</h4></label>
                                       <input type="text" class=" center form-control" id="destination">
@@ -154,24 +161,27 @@
       <div id="lastModal" class="modal">
         <div class="modal-content-big">
             <H1>Thanks for the info!</H1>
-            <h2> Learn more about Monroe:</h2>
+            <h2>Places of Interest in Monroe:</h2>
+            <div>
             <table>
-                  <tr>
+           <tr>
                     <td align="center"><img class="photo" src="assets/images/CVB_Pics/antique%20alley.jpg"></td>
-                    <td align="center"><img class="photo" src="assets/images/CVB_Pics/beidenharn.jpg"></td>
-                  </tr>
-                  <tr>
+                    <td id="beidenharn" align="center"><img class="photo" src="assets/images/CVB_Pics/beidenharn.jpg"></td>
+                </tr>
+                <tr>
                       <td align="center"><h3>The Antique Alley</h3></td>
                       <td align="center"><h3>Beidenharn Museum</h3></td>
                 </tr>
-                  <tr>
+                <tr>
                     <td align="center"><img class="photo" src="assets/images/CVB_Pics/black-bayou.jpg"></td>
                     <td align="center"><img class="photo" src="assets/images/CVB_Pics/monroe-zoo.jpg"></td>
-                  </tr>
+                </tr>
                 <td align="center"><h3>Black Bayou Wildlife museum</h3></td>
-                <td align="center"><h3>Louisiana Purchase Zoo</h3></td>
+                <td align="center"><h3>Louisiana Purchase Zoo</h3></td> 
             </table>
+                <button align="center" id="byebye" class="btn btn-success btn-lg">Bye bye</button>
         </div>
+          </div>
       </div>
 
     <script>window.$ = window.jQuery = require('jquery');</script>
