@@ -263,20 +263,28 @@ function buildSummaryQuery(contentPage){
 function createSummaryTable(query){
   let display = "";
   display += "<div class='table-responsive'><table class='table table-striped'>";
+  let exportData = [];
   conn.query(query, (err,results,fields)=>{
     if (err) throw err;
     display += "<thead><tr>";
 
+    let headers = [];
     for(let field of fields){
       display += "<th>" + field.name + "</th>";
+      headers.push(field.name);
     }
+    exportData.push(headers);
+
     display += "</tr></thead>";
     display += "<tbody>"
     for(let result of results){
       display += "<tr>";
+      let bodies = [];
       for(let field in result){
+        bodies.push(result[field]);
         display += "<td>" + result[field] + "</td>";
       }
+      exportData.push(bodies);
       display += "</tr>";
     }
 
@@ -289,6 +297,21 @@ function createSummaryTable(query){
 
      table.innerHTML = '<button id="export-summary" type="button" class="btn btn-primary">Export</button>'+display;
 
+     document.getElementById("export-summary").onclick = ()=>{
+        console.log("export");
+        dialog.showSaveDialog({
+           title: "Export as",
+           filters: [{name: 'Excel(.xlsx)', extensions: ['xlsx']}],
+           nameFieldLabel: "sample"
+         }, function (file) {
+          if (file === undefined) return;
+          console.log("fileRead");
+          let filePieces = file.split("\\");
+          let fileName = filePieces[filePieces.length-1];
+          let filePath = filePieces.splice(0,filePieces.length-1).join("\\");
+          writeNowToExcel(fileName, filePath, exportData);
+        });
+     };
   });
 
 }
@@ -322,8 +345,11 @@ function loadGraphs() {
 }
 
 function createBarGraph(graphLabels, graphData){
-    var ctx = document.getElementById("firstChart");
-    var myChart = new Chart(ctx, {
+    let ctx = document.getElementById("firstChart");
+    ctx.parentNode.flexBasis = "700px";
+    // ctx.width = '100';
+    // ctx.height = '100';
+    let myChart = new Chart(ctx, {
     type: 'bar',
     data: {
         labels: graphLabels,
@@ -350,8 +376,11 @@ function createBarGraph(graphLabels, graphData){
 }
 
 function createLineGraph(graphLabels, graphData){
-    var ctx = document.getElementById("secondChart");
-    var myChart = new Chart(ctx, {
+    let ctx = document.getElementById("secondChart");
+    ctx.parentNode.flexBasis = "700px";
+    // ctx.width = '400';
+    // ctx.height = '400';
+    let myChart = new Chart(ctx, {
     type: 'line',
     data: {
         labels: graphLabels,

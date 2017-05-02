@@ -114,11 +114,32 @@ body{
 #container {
   float:left;
 }
+
 #summary p{
   width:650px;
   border-bottom: 1px solid gray;
 }
-#dashboard .overview-container{
+#dashboard .well-container{
+  display:flex;
+  justify-content: space-around;
+}
+
+#dashboard .well-container .well{
+  /*display:flex;*/
+}
+
+#dashboard .charts-container{
+   display: flex;
+}
+
+#dashboard #firstChartDiv{
+  width: 700px;
+}
+
+#dashboard #secondChartDiv{
+  width: 700px;
+}
+/*#dashboard .overview-container{
   display:flex;
   justify-content: space-around;
 }
@@ -130,15 +151,8 @@ body{
   display: flex;
   justify-content: space-around;
 
-}
+}*/
 
-canvas{
-  /*  background-color: white;*/
-  margin-top: 20px;
-  padding:4px;
-  border-radius: 4px;
-  /*margin-right: 5px;*/
-}
 #summary {
   padding:20px;
 }
