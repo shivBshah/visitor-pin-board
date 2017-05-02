@@ -5,11 +5,11 @@ let MarkerClusterer = require('./scripts/marker-clusterer.js');
 let fs = require('fs');
 
 //when was the last time someone was using the map
-let lastActiveTime; 
+let lastActiveTime;
 
 //running state of the map
 //Is it sitting idle or being used?
-let idleState= true; 
+let idleState= true;
 
 //variables related to google map
 let map;
@@ -53,7 +53,7 @@ let visitor_num = 0;
 
 function initMap() {
    //read initial map style data from file
-       
+
     let styledata = fs.readFileSync('google-maps-style.json');
 
     //create map with that style
@@ -61,7 +61,7 @@ function initMap() {
 
     google.maps.event.addListener(map, 'click', function( event ){
         if(x==true)
-        { 
+        {
             $("#welcome").slideUp();
             $('.box-wrapper').each(function(index, element) {
             setTimeout(function(){
@@ -80,7 +80,7 @@ function initMap() {
 
     document.getElementById('submit').addEventListener('click', (e) => {
       e.preventDefault();
-    
+
       geocodeAddress(geocoder, map);
     });
 
@@ -89,7 +89,7 @@ function initMap() {
     });
 
     console.log(visitor_num);
-    
+
 }
 
 function createMap(styledata) {
@@ -104,10 +104,10 @@ function createMap(styledata) {
           zoomControl: false,
           mapTypeControlOptions: { mapTypeIds: []}
     });
-    
+
     marker = new google.maps.Marker( {position: null, map: map, draggable:true, animation: google.maps.Animation.DROP} );
     marker.setIcon("./assets/images/pin/new_pin.png");
-    
+
     geocoder = new google.maps.Geocoder();
 
     autocomplete = new google.maps.places.Autocomplete(
@@ -117,9 +117,9 @@ function createMap(styledata) {
               });
   //load initial markers from the database
     loadMarkers((markers)=>{
-        let markerCluster = new MarkerClusterer(map, markers, {imagePath: './assets/images/clusters/m'});       
+        let markerCluster = new MarkerClusterer(map, markers, {imagePath: './assets/images/clusters/m'});
     });
-    
+
    google.maps.event.addListener(marker, "dragstart", function (event) {
         marker.setAnimation(3); // raise
     });
@@ -184,24 +184,41 @@ function loadMarkers(callback){
   remote.getCurrentWindow().webContents.reload();*/
   let locations = [];
   let markers=[];
-  
+
   map.setZoom(5);
-  conn.query("SELECT lat,lng FROM markers", (error, results, fields) => {
-      if (error){
-        return console.log("An error occured: " + error);
+  conn.query("select * from map_settings", (err,results,fields)=>{
+      if (err) return err;
+      let pinCount = results[0].value;
+      let pinDuration = results[1].value;
+      let query = "SELECT marker_id, lat ,lng FROM markers";
+
+      if (pinDuration != -1){
+        query += ` WHERE TIMESTAMPDIFF(MONTH, timestamp, CURDATE()) <= ${pinDuration}`;
       }
-      results.forEach((item)=>{
-          locations.push({lat: item.lat, lng: item.lng});
-      });
-      
-      for (let i=0; i<locations.length; i++){
-          markers[i]= new google.maps.Marker({
-              position: locations[i],
-              icon: "./assets/images/pin/new red.png"
+      if(pinCount != -1) {
+        query += ` ORDER BY marker_id DESC`;
+        query += ` LIMIT ${pinCount}`;
+      }
+
+      console.log(query);
+      conn.query(query, (error, results, fields) => {
+          if (error){
+            return console.log("An error occured: " + error);
+          }
+          results.forEach((item)=>{
+              locations.push({lat: item.lat, lng: item.lng});
           });
-      }
-      callback(markers);
+          // console.log(results[results.length-1].marker_id);
+          for (let i=0; i<locations.length; i++){
+              markers[i]= new google.maps.Marker({
+                  position: locations[i],
+                  icon: "./assets/images/pin/new red.png"
+              });
+          }
+          callback(markers);
+      });
   });
+
 
 }
 
@@ -210,7 +227,7 @@ function saveMarker() {
   let lat = geocodeResults[0].geometry.location.lat();
   let long = geocodeResults[0].geometry.location.lng();
   let date = (new Date()).toISOString().substring(0, 10);
-  
+
   conn.query("INSERT INTO markers(lat, lng, timestamp) VALUES(?,?,?)",[lat,long,date], (error, results, fields) => {
     if (error) {
       return console.log("An error occurred with the query", error);
@@ -232,8 +249,8 @@ function saveMarker() {
         console.log('Visitor stored in the database.');
       });
   });
-  
-  
+
+
   // loadMarkers();
 }
 
@@ -254,7 +271,7 @@ function getCityStateZip(){
 
     if (c.types[0] == "postal_code")
       zip = c.long_name;
-    
+
     if (c.types[0] == "country")
       country = c.long_name;
   }
@@ -272,7 +289,7 @@ function addListeners(){
        column = "advertisement";
     else if(pages.id=="hotelStay")
        column = "hotel_stay";
-   
+
     console.log(column);
       for(let page of pages.childNodes){
           if (page.nodeType != 3){
@@ -286,7 +303,7 @@ function addListeners(){
                 });
             };
          }
-        
+
       }
   }
 
@@ -296,15 +313,15 @@ function addListeners(){
       modal.style.display = "none";
       let bigmodal = document.querySelector('#lastModal');
       bigmodal.style.display="block";
-      storeFinalInfo();    
-      
+      storeFinalInfo();
+
   });
 
 
    document.getElementById('byebye').addEventListener('click', ()=>{
       setTimeout(reloadWindow(), 1000);
   });
-    
+
 }
 
 function storeFinalInfo(){
@@ -339,5 +356,3 @@ function zoomIn()
 }
 
 module.exports = saveMarker;
-    
-

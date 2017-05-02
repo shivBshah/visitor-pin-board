@@ -127,7 +127,7 @@ p{
 #welcome h1,h2{
     font-size: 300%;
     font-style: oblique;
-        
+
 }
 
 /*
@@ -178,12 +178,5 @@ label{
 table{
     border-color: none;
     width: 95%;
-    
-}
-.photo{
-    width: 400px;
-    height: 300px;
-    margin: 0 auto;
-    padding-bottom: 20px;
-    border: solid 5px #3db2e2;
+
 }

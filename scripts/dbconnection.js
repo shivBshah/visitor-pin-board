@@ -4,13 +4,13 @@ let mysql  = require('mysql');
 class DBConnection {
     constructor() {
       this._connection = mysql.createConnection({
-        host     : 'DESKTOP-ADT7E5D',
+        host     : '10.26.127.123',
         user     : 'root',
         password : 'root',
         database : 'visitors'
       });
    }
-    
+
    connect() {
       this._connection.connect((err) => {
           if(err){

@@ -11,7 +11,7 @@
     <link href="./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="main-view-style.css"/>
     <link rel="stylesheet" href="scripts/jquery-ui-1.12.1/jquery-ui.min.css">
-      
+
 
     <link href="./styles/modal-style.css" rel="stylesheet">
       <style>
@@ -26,7 +26,7 @@
 
 .box-wrapper.loading {
     transform: translate(-100%);
-    -webkit-transform: translate(-6000%);    
+    -webkit-transform: translate(-6000%);
 }
       </style>
           </head>
@@ -38,32 +38,32 @@
         <div class="box-wrapper loading" id="inputBox">
             <form class="form-inline">
             <div class="form-group">
-              <input type="text" id = "address" class="form-control input-lg" placeholder="your address">
+              <input type="text" id = "address" class="form-control input-lg" placeholder="City and State, or Zip">
               <button class="btn btn-primary btn-lg" id="submit"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Pin</button>
             </div>
             </form>
         </div>
     </center>
-      
+
     <div id="map"></div>
-      
+
       <div id="welcome">
         <h1>Hey y'all! Welcome to Monroe</h1>
         <h2>Click on the map to start!</h2>
       </div>
-      
+
       <div id="pin-address-display" class="box-wrapper loading">
             <div id="show-first">
-                <h1>Type in your address above, or touch the map to show us!</h1>
+                <h1>Enter your address above, or pin it on the map!</h1>
             </div>
             <div id ="show-second">
-                  <h2>Is this your Address?</h2>
+                  <h2>Are you from here?</h2>
                   <h3 id="homeAddress"></h3>
                   <!-- Button trigger modal -->
                     <button id="myBtn" type="button" class="btn btn-success btn-lg">Yes!</button>
             </div>
       </div>
-      
+
       <div id="logos">
 <!--    <img src="assets/images/ULM-logo.jpg">-->
     <img src="assets/images/CVB-logo.png">-->
@@ -96,7 +96,7 @@
                                           </label>
                                           <label class="btn btn-primary btn-lg">
                                             <input type="radio" name="options" id="other-reason" autocomplete="off"> Other
-                                          </label>                     
+                                          </label>
                                         </div>
                                 </div>
                                 <div class="form-group">
@@ -113,7 +113,7 @@
                                           </label>
                                           <label class="btn btn-primary btn-lg">
                                             <input type="radio" name="options" id="other-source" autocomplete="off"> Other
-                                          </label>                     
+                                          </label>
                                         </div>
                                 </div>
                                 <div class="form-group">
@@ -124,7 +124,7 @@
                                               </label>
                                               <label class="btn btn-primary btn-lg">
                                                 <input type="radio" name="options" id="no" autocomplete="off"> No
-                                              </label>                     
+                                              </label>
                                             </div>
                                 </div>
                         </div>
@@ -132,11 +132,11 @@
 
                         <div class="step well">
                                 <div id="second-content">
-                                    <h4>How many people are in your party?</h4>
-                                    <div class="center input-group col-md-4">
-                                        <span class="input-group-btn"><button class="btn btn-default value-control" data-action="minus" data-target="font-size"><span class="glyphicon glyphicon-minus"></span></button></span>
-                                        <input type="text" value="1" class="form-control" id="number">
-                                        <span class="input-group-btn"><button class="btn btn-default value-control" data-action="plus" data-target="font-size"><span class="glyphicon glyphicon-plus"></span></button></span>
+                                    <h4>How many of ya'll are traveling together?</h4>
+                                    <div id="boss"class="center input-group col-md-4">
+                                        <span class="input-group-btn"><button id="up" class="btn btn-default value-control"><span class="glyphicon glyphicon-minus"></span></button></span>
+                                        <input type="number" value="1" min="1" class="form-control" id="number">
+                                        <span class="input-group-btn"><button id="down" class="btn btn-default value-control"><span class="glyphicon glyphicon-plus"></span></button></span>
                                     </div>
                                     <br>
                                     <div class="form-group">
@@ -157,12 +157,12 @@
                     </div>
                 </div>
             </div>
-      
+
       <div id="lastModal" class="modal">
         <div class="modal-content-big">
             <H1>Thanks for the info!</H1>
             <h2>Places of Interest in Monroe:</h2>
-            <div>
+
             <table>
            <tr>
                     <td align="center"><img class="photo" src="assets/images/CVB_Pics/antique%20alley.jpg"></td>
@@ -176,12 +176,12 @@
                     <td align="center"><img class="photo" src="assets/images/CVB_Pics/black-bayou.jpg"></td>
                     <td align="center"><img class="photo" src="assets/images/CVB_Pics/monroe-zoo.jpg"></td>
                 </tr>
-                <td align="center"><h3>Black Bayou Wildlife museum</h3></td>
-                <td align="center"><h3>Louisiana Purchase Zoo</h3></td> 
+                <td align="center"><h3>Black Bayou Wildlife Museum</h3></td>
+                <td align="center"><h3>Louisiana Purchase Zoo</h3></td>
             </table>
-                <button align="center" id="byebye" class="btn btn-success btn-lg">Bye bye</button>
         </div>
-          </div>
+        <button align="center" id="byebye" class="btn btn-success btn-lg">Bye bye</button>
+
       </div>
 
     <script>window.$ = window.jQuery = require('jquery');</script>
